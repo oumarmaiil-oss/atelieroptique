@@ -473,8 +473,8 @@ body.lvl1 .certwhy{display:none!important}
 @media (orientation:portrait) and (max-width:1000px){ .tline{padding:2px 6px 5px} .speed span:first-child{display:none} .speed input{width:64px} }
 
 #sim-ondes .tb[data-do="loop"]{display:none}
-#ond-vbox{width:min(235px,30%)}
-#ond-vbox canvas{aspect-ratio:16/11}
+#ond-vbox{width:min(250px,25%);left:auto;right:10px;bottom:auto;top:52px}
+#ond-vbox canvas{aspect-ratio:16/10}
 </style>
 </head>
 <body>
@@ -685,7 +685,7 @@ body.lvl1 .certwhy{display:none!important}
           <div class="status" id="ond-status"></div>
         </div></div>
         <div class="ov ovleg mini"><div class="ib"><div class="lt">Légende</div><div class="lb" id="ond-leg"></div></div></div>
-        <div class="vbox left" id="ond-vbox" hidden><div class="vt">Schéma du cours : deux sources</div><canvas id="ond-vcanvas"></canvas><div class="vs" id="ond-vs"></div></div>
+        <div class="vbox left" id="ond-vbox" hidden><div class="vt">Schéma du cours : S₁, S₂ et le point M</div><canvas id="ond-vcanvas"></canvas><div class="vs" id="ond-vs"></div></div>
       </div>
       <div class="transport">
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
@@ -1078,6 +1078,7 @@ const MIL = (() => {
     fth:15, fbend:'douce', fgaine:true,
     liq:'eau', h:2.0, alpha:60,
     elev:35, dust:false, sea:true,
+    rb:.86, rbMany:false,
     reveal:Infinity, playing:false, dayT:0
   };
   const M = {}; /* dernières mesures (pour les défis et les calculs) */
@@ -1094,7 +1095,8 @@ const MIL = (() => {
         ['prisme','Le prisme','La lumière blanche se décompose en couleurs'],
         ['fibre','Réflexion totale et fibre optique','La lumière prisonnière du verre'],
         ['profondeur','Profondeur apparente','Pourquoi la piscine paraît moins profonde'],
-        ['ciel','Les couleurs du ciel','Ciel bleu, soleil rouge, harmattan']
+        ['ciel','Les couleurs du ciel','Ciel bleu, soleil rouge, harmattan'],
+        ['arcenciel','L’arc-en-ciel','La lumière du Soleil dans une goutte de pluie']
       ], S.mode, v => { S.mode = v; S.playing = false; renderSteps(); replay(); })));
     const m = S.mode;
     if(m === 'dioptre'){
@@ -1133,6 +1135,11 @@ const MIL = (() => {
         UI.seg([[false,'Air pur'],[true,'Brume de poussière (harmattan)']], S.dust, v => { S.dust = v; dirty = true; }),
         UI.toggle('Vue sur l’océan (coucher de soleil à Dakar)', S.sea, v => { S.sea = v; dirty = true; })));
     }
+    else if(m === 'arcenciel'){
+      box.appendChild(UI.step(2, 'Le rayon de Soleil', 'Où frappe-t-il la goutte ? 0 = au centre, 1 = au bord.',
+        UI.num({label:'Point d’entrée dans la goutte', min:0, max:.99, step:.01, value:S.rb, show:v=>`${fmtF(v,2)} × rayon`, on:v=>{ S.rb=v; dirty=true; }, help:'Vers 0,86, les rayons ressortent tous à peu près au même angle : c’est le « rayon de Descartes ».'}),
+        UI.toggle('Montrer 20 rayons rouges à la fois', S.rbMany, v => { S.rbMany = v; dirty = true; })));
+    }
     updMain(); legend(); dirty = true;
   }
 
@@ -1161,10 +1168,11 @@ const MIL = (() => {
       prisme:['<span><i class="legline" style="border-color:#fff"></i>Lumière blanche</span>','<span><i class="legline" style="border-color:#ff3030"></i><i class="legline" style="border-color:#30ff60;margin-left:-6px"></i><i class="legline" style="border-color:#4060ff;margin-left:-6px"></i>Couleurs séparées</span>','<span><i class="legline dash" style="border-color:#a09fbf"></i>Normales aux faces</span>'],
       fibre:['<span><i class="legline" style="border-color:#3dff4a"></i>Rayon laser</span>','<span><i class="dot" style="background:#2f6f63"></i>Cœur (verre, n = 1,50)</span>','<span><i class="dot" style="background:#1a3a5a"></i>Gaine (n = 1,46)</span>'],
       profondeur:['<span><i class="legline" style="border-color:#ffd25a"></i>Rayons venus de la pièce</span>','<span><i class="legline dash" style="border-color:#ffd25a"></i>Prolongements (ce que croit l’œil)</span>','<span><i class="dot" style="background:#e9b64a"></i>Pièce réelle</span><span><i class="dot" style="background:rgba(233,182,74,.45)"></i>Pièce vue (image)</span>'],
-      ciel:['<span><i class="dot" style="background:#5aa0ff"></i>Bleu : très diffusé par l’air</span>','<span><i class="dot" style="background:#ff6a3a"></i>Rouge : traverse le mieux</span>']
+      ciel:['<span><i class="dot" style="background:#5aa0ff"></i>Bleu : très diffusé par l’air</span>','<span><i class="dot" style="background:#ff6a3a"></i>Rouge : traverse le mieux</span>'],
+      arcenciel:['<span><i class="legline" style="border-color:#fff"></i>Lumière blanche du Soleil</span>','<span><i class="legline" style="border-color:#ff3030"></i>Rouge : ressort à 42°</span>','<span><i class="legline" style="border-color:#8a4dff"></i>Violet : ressort à 40°</span>','<span><i class="legline dash" style="border-color:#a09fbf"></i>Normales</span>']
     };
     L.innerHTML = rows[m].join('');
-    $('#mil-vbox').hidden = m !== 'ciel';
+    $('#mil-vbox').hidden = m !== 'ciel' && m !== 'arcenciel';
   }
 
   /* ---------- Dessin ---------- */
@@ -1180,7 +1188,7 @@ const MIL = (() => {
     g.setTransform(cv.width/W,0,0,cv.height/H,0,0);
     g.clearRect(0,0,W,H);
     tlReset();
-    ({dioptre:drawDioptre, prisme:drawPrisme, fibre:drawFibre, profondeur:drawProf, ciel:drawCiel})[S.mode]();
+    ({dioptre:drawDioptre, prisme:drawPrisme, fibre:drawFibre, profondeur:drawProf, ciel:drawCiel, arcenciel:drawArc})[S.mode]();
     texts();
     if(S.mode !== 'ciel') TL = tlInfo();
   }
@@ -1194,12 +1202,13 @@ const MIL = (() => {
     else if(m === 'prisme') S.pi = clamp(Math.round(85*(1 - y/H)), 0, 85);
     else if(m === 'fibre'){ const F = fibreGeo(); if(x >= F.x0) return false; S.fth = clamp(Math.round(Math.abs(Math.atan2(F.yc - y, F.x0 - x))*R2D), 0, 60); }
     else if(m === 'profondeur') S.alpha = clamp(Math.round(20 + 70*(1 - y/(H*.38))), 20, 90);
+    else if(m === 'arcenciel'){ const R = Math.min(W*.26, H*.3), cy = H*.38; S.rb = clamp(Math.round((cy - y)/R*100)/100, 0, .99); }
     else if(m === 'ciel'){ const hz = H*.68; S.elev = clamp(Math.round(90*(hz - y)/(hz - 30)), -4, 90); S.playing = false; updMain(); }
     S.reveal = Infinity; if(m !== 'ciel') S.playing = false;
     if(phase === 'end') renderSteps();
     dirty = true; return true;
   }
-  const HINT = {dioptre:'fais glisser au-dessus de la surface pour changer l’angle du rayon', prisme:'fais glisser vers le haut ou le bas pour changer l’angle d’incidence', fibre:'fais glisser à gauche de la fibre pour orienter le laser', profondeur:'fais glisser verticalement pour changer la hauteur du regard', ciel:'fais glisser verticalement pour monter ou descendre le Soleil'};
+  const HINT = {dioptre:'fais glisser au-dessus de la surface pour changer l’angle du rayon', prisme:'fais glisser vers le haut ou le bas pour changer l’angle d’incidence', fibre:'fais glisser à gauche de la fibre pour orienter le laser', profondeur:'fais glisser verticalement pour changer la hauteur du regard', ciel:'fais glisser verticalement pour monter ou descendre le Soleil', arcenciel:'fais glisser verticalement pour changer l’endroit où le rayon entre dans la goutte'};
 
   /* --- 1. Réfraction entre deux milieux --- */
   function drawDioptre(){
@@ -1525,6 +1534,75 @@ const MIL = (() => {
     drawSkyBox();
     $('#mil-readout').innerHTML = `<span class="k">Soleil</span> ${fmt(el,0)}° <span class="k">·</span> <span class="k">épaisseur d’air</span> × ${fmt(M.am,1)} <span class="k">·</span> <span class="k">bleu transmis</span> ${fmt(sc.tb*100,0)} % <span class="k">·</span> <span class="k">rouge</span> ${fmt(sc.tr*100,0)} %`;
   }
+  /* --- 6. L'arc-en-ciel : réfraction, réflexion dans la goutte, réfraction --- */
+  const RBW = [400,430,460,490,520,550,580,610,640,670,700];
+  function rbPath(b, l){
+    const n = nL('eau', l), i = Math.asin(b), r = Math.asin(b/n), th = 4*r - 2*i;
+    return {n, i, r, th};
+  }
+  function rbMax(l){ let best = 0, bb = 0; for(let b=.5;b<.999;b+=.001){ const t = rbPath(b,l).th; if(t > best){ best = t; bb = b; } } return {th:best, b:bb}; }
+  function drawArc(){
+    g.fillStyle = '#070815'; g.fillRect(0,0,W,H);
+    const R = Math.min(W*.26, H*.3), cx = W*.56, cy = H*.38;
+    const gr = g.createRadialGradient(cx - R*.3, cy - R*.3, R*.1, cx, cy, R); gr.addColorStop(0,'rgba(120,180,255,.22)'); gr.addColorStop(1,'rgba(40,90,170,.35)');
+    g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, R, 0, 6.283); g.fill(); g.strokeStyle = 'rgba(170,210,255,.8)'; g.lineWidth = 1.5; g.stroke();
+    DR.text(g, 'goutte d’eau (n ≈ 1,33)', cx, cy + R + 16, '#a0c8ff', 12, 'center');
+    const pt = a => [cx + R*Math.cos(a), cy - R*Math.sin(a)];
+    const pathFor = (b, l) => { const p = rbPath(b, l), a1 = Math.PI - p.i, step = Math.PI - 2*p.r, a2 = a1 - step, a3 = a2 - step;
+      const P1 = pt(a1), P2 = pt(a2), P3 = pt(a3), L = W, out = [P3[0] - Math.cos(p.th)*L, P3[1] + Math.sin(p.th)*L];
+      return {p, P1, P2, P3, out}; };
+    const segsOf = (q, I=1) => { const l1 = Math.hypot(q.P1[0], 0) , pts = [[0, q.P1[1]], q.P1, q.P2, q.P3, q.out]; const out = []; let d = 0;
+      for(let k=0;k<4;k++){ const [x1,y1] = pts[k], [x2,y2] = pts[k+1]; out.push({x1,y1,x2,y2,I,d0:d,gen:0}); d += Math.hypot(x2-x1,y2-y1); } return out; };
+    g.globalCompositeOperation = 'lighter';
+    if(S.rbMany){
+      for(let b=.05;b<1;b+=.05){ const q = pathFor(b, 680); drawSegs(g, segsOf(q, .55), a => `rgba(255,70,60,${a*.8})`, S.reveal, 1.2, false); }
+    } else {
+      const q0 = pathFor(S.rb, 550);
+      drawSegs(g, [{x1:0,y1:q0.P1[1],x2:q0.P1[0],y2:q0.P1[1],I:1,d0:0,gen:0}], a => `rgba(255,255,255,${a})`, S.reveal, 2.6);
+      const lams = state.light ? RBW.filter((_,k)=>k%2===0) : RBW;
+      lams.forEach(l => { const q = pathFor(S.rb, l), sg = segsOf(q, .9).slice(1); drawSegs(g, sg, a => waveCSS(l, a*.75), S.reveal, 1.8, false); });
+    }
+    g.globalCompositeOperation = 'source-over';
+    /* soleil à gauche */
+    g.fillStyle = '#ffe9a0'; g.beginPath(); g.arc(18, 22, 10, 0, 6.283); g.fill(); DR.text(g, 'Soleil', 34, 22, '#ffe9a0', 12);
+    const qr = pathFor(S.rb, 680), qv = pathFor(S.rb, 420);
+    if(level >= 2 && !S.rbMany){
+      /* normale à l'entrée et angles */
+      const P1 = qr.P1, nx = (P1[0] - cx)/R, ny = (P1[1] - cy)/R;
+      DR.dash(g, P1[0] + nx*50, P1[1] + ny*50, P1[0] - nx*60, P1[1] - ny*60, 'rgba(160,159,191,.75)');
+      DR.text(g, level >= 3 ? `i = ${fmt(qr.p.i*R2D,1)}°` : 'i', P1[0] - 60, P1[1] - 12, '#ffd25a', 12, 'right');
+      DR.text(g, 'réfraction', P1[0] - 8, P1[1] + 16, '#cfd0e6', 11.5, 'right');
+      DR.text(g, 'réflexion', qr.P2[0] + 10, qr.P2[1], '#cfd0e6', 11.5, 'left');
+      DR.text(g, 'réfraction', qr.P3[0] - 6, qr.P3[1] + 4, '#cfd0e6', 11.5, 'right');
+      /* angle de sortie par rapport au rayon du Soleil */
+      const P3 = qr.P3; DR.dash(g, P3[0], P3[1], P3[0] - 140, P3[1], 'rgba(255,233,160,.6)', 1.2, [4,4]);
+      DR.arc(g, P3[0], P3[1], 90, Math.PI, Math.PI - qr.p.th, '#ff6b6b'); DR.arc(g, P3[0], P3[1], 78, Math.PI, Math.PI - qv.p.th, '#a77bff');
+      DR.text(g, `rouge ${fmt(qr.p.th*R2D,1)}°`, P3[0] - 96, P3[1] + 30, '#ff8f8f', 12.5, 'right');
+      DR.text(g, `violet ${fmt(qv.p.th*R2D,1)}°`, P3[0] - 84, P3[1] + 48, '#c4a6ff', 12.5, 'right');
+    }
+    const mr = rbMax(680), mv = rbMax(420);
+    Object.assign(M, {rbR: qr.p.th*R2D, rbV: qv.p.th*R2D, rbMaxR: mr.th*R2D, rbMaxV: mv.th*R2D, rbB: mr.b, nR: qr.p.n, nV: qv.p.n, iR: qr.p.i*R2D, rR: qr.p.r*R2D});
+    drawRainbowBox();
+    $('#mil-readout').innerHTML = `<span class="k">entrée</span> ${fmtF(S.rb,2)} R <span class="k">· sortie rouge</span> ${fmt(M.rbR,1)}° <span class="k">· violet</span> ${fmt(M.rbV,1)}° <span class="k">· maximum (Descartes)</span> ${fmt(M.rbMaxR,1)}° / ${fmt(M.rbMaxV,1)}°`;
+  }
+  function drawRainbowBox(){
+    if($('#mil-vbox').classList.contains('mini') || vcv.clientHeight < 30) return;
+    const r = hiDPI(vcv), q = r.ctx, w = r.W, h = r.H, hz = h*.72, k = Math.max(.5, (hz - 6)/60);
+    const sky = q.createLinearGradient(0,0,0,hz); sky.addColorStop(0,'#3a4e6e'); sky.addColorStop(1,'#8fa6c4'); q.fillStyle = sky; q.fillRect(0,0,w,hz);
+    q.fillStyle = '#2f4a2a'; q.fillRect(0,hz,w,h-hz);
+    /* centre de l'arc : le point antisolaire, sous l'horizon (Soleil à 15° dans le dos) */
+    const ax = w*.5, ay = hz + 15*k;
+    q.save(); q.beginPath(); q.rect(0,0,w,hz); q.clip();
+    for(let l=400;l<=700;l+=6){ const t = rbMax(l).th*R2D; q.strokeStyle = waveCSS(l,.55); q.lineWidth = Math.max(1.5, k*.35); q.beginPath(); q.arc(ax, ay, t*k, Math.PI, 2*Math.PI); q.stroke(); }
+    q.restore();
+    q.strokeStyle = 'rgba(255,255,255,.5)'; q.setLineDash([3,3]); q.beginPath(); q.moveTo(ax, ay); q.lineTo(ax - Math.cos(.9)*42*k, ay - Math.sin(.9)*42*k); q.stroke(); q.setLineDash([]);
+    q.fillStyle = '#111'; q.beginPath(); q.arc(ax, h - 12, 5, 0, 6.283); q.fill(); q.fillRect(ax - 3, h - 8, 6, 8);
+    q.font = '600 10.5px system-ui'; q.fillStyle = '#fff'; q.textAlign = 'center';
+    q.fillText('Toi, le Soleil dans le dos', ax, hz + 12);
+    q.textAlign = 'left'; q.fillText('42°', ax - Math.cos(.9)*24*k + 4, ay - Math.sin(.9)*24*k);
+    $('#mil-vt').textContent = 'Ce que voit l’observateur';
+    $('#mil-vs').innerHTML = 'Chaque goutte ne t’envoie qu’une couleur, selon l’angle : le <b>rouge à l’extérieur</b> (42°), le <b>violet à l’intérieur</b> (40°). L’arc est centré sur l’ombre de ta tête.';
+  }
   function baobab(x, y, h){
     g.fillStyle = '#0b0906';
     g.beginPath(); g.moveTo(x - h*.13, y); g.quadraticCurveTo(x - h*.1, y - h*.5, x - h*.07, y - h*.62); g.lineTo(x + h*.07, y - h*.62); g.quadraticCurveTo(x + h*.11, y - h*.5, x + h*.14, y); g.closePath(); g.fill();
@@ -1533,6 +1611,7 @@ const MIL = (() => {
     g.lineCap = 'butt';
   }
   function drawSkyBox(){
+    if($('#mil-vbox').classList.contains('mini') || vcv.clientHeight < 30) return;
     const r = hiDPI(vcv), q = r.ctx, w = r.W, h = r.H;
     q.fillStyle = '#04050b'; q.fillRect(0,0,w,h);
     const R = w*1.6, cx = w*.42, cy = h + R - h*.32, atm = h*.17;
@@ -1615,6 +1694,19 @@ const MIL = (() => {
       calc.innerHTML = `<div class="eq">h' ≈ h / n (regard vertical)</div><div>${fmt(S.h,1)} / ${fmtF(M.n)} = <span class="res">${fmtF(S.h/M.n,2)} m</span></div>
         <div>Avec ton regard à ${S.alpha}° : image à <span class="res">${fmtF(M.hImg,2)} m</span> sous la surface</div>
         <div class="k">Rapport apparent / réel : ${fmtF(M.ratio,2)}</div>`;
+    } else if(m === 'arcenciel'){
+      k.textContent = 'Réfraction, réflexion et dispersion';
+      t.textContent = 'L’arc-en-ciel dans une goutte de pluie';
+      sh.textContent = 'La lumière entre dans la goutte, se réfléchit au fond, puis ressort en se séparant en couleurs.';
+      st.textContent = S.rbMany ? `Les rayons ressortent presque tous près de ${fmt(M.rbMaxR,0)}° : c’est là que la lumière se concentre.` : Math.abs(S.rb - M.rbB) < .03 ? '✓ Rayon de Descartes : angle de sortie maximal, la lumière s’y accumule.' : `Sortie : rouge à ${fmt(M.rbR,1)}°, violet à ${fmt(M.rbV,1)}°.`;
+      p.innerHTML = `Trois étapes dans chaque goutte : <b>réfraction</b> en entrant, <b>réflexion</b> sur le fond de la goutte, <b>réfraction</b> en sortant. Comme dans un prisme, l’eau dévie un peu plus le violet que le rouge : les couleurs se séparent (dispersion). Surtout, quel que soit le point d’entrée, la lumière ressort rarement à plus de 42° : les rayons s’accumulent tout près de cet angle maximal. Voilà pourquoi on voit un arc lumineux, à 42° de l’ombre de notre tête, <b>rouge à l’extérieur</b> (42°) et <b>violet à l’intérieur</b> (40°). Il faut donc le Soleil dans le dos et de la pluie devant soi.`;
+      pr.innerHTML = `Vers 1304-1310, Théodoric de Freiberg en Europe et Kamal al-Din al-Farisi en Perse ont compris, chacun de son côté, le trajet dans la goutte en éclairant de grosses sphères de verre remplies d’eau. En 1637, Descartes calcule l’angle de 42° en suivant des milliers de rayons ; Newton explique les couleurs. Avec deux réflexions dans la goutte, on voit parfois un second arc plus pâle, vers 51°, aux couleurs inversées.`;
+      xp.innerHTML = `sin i = n sin r · angle de sortie θ = 4r − 2i · maximum quand cos i = √((n² − 1)/3) · rouge : n = ${fmtF(M.nR,4)} → θₘₐₓ = ${fmt(M.rbMaxR,1)}° · violet : n = ${fmtF(M.nV,4)} → θₘₐₓ = ${fmt(M.rbMaxV,1)}°`;
+      $('#mil-ctitle').textContent = 'Calculs en direct (rouge, 680 nm)';
+      calc.innerHTML = `<div>Point d’entrée : sin i = ${fmtF(S.rb,2)} → <span class="res">i = ${fmt(M.iR,1)}°</span></div>
+        <div class="eq">sin i = n sin r</div><div>${fmtF(S.rb,2)} = ${fmtF(M.nR,3)} × sin r → <span class="res">r = ${fmt(M.rR,1)}°</span></div>
+        <div class="eq">θ = 4r − 2i = 4 × ${fmt(M.rR,1)} − 2 × ${fmt(M.iR,1)} = ${fmt(M.rbR,1)}°</div>
+        <div class="k">Maximum (rayon de Descartes) : ${fmt(M.rbMaxR,1)}° pour une entrée à ${fmtF(M.rbB,2)} R</div>`;
     } else if(m === 'ciel'){
       k.textContent = 'Diffusion de la lumière';
       const el = S.elev;
@@ -2622,11 +2714,13 @@ const OND = (() => {
       box.appendChild(UI.step(3, 'Le montage', 'Deux fentes très fines et très proches, un écran loin.',
         UI.num({label:'Écart entre les fentes a', min:.1, max:1, step:.05, value:S.a, show:v=>`${fmtF(v,2)} mm`, on:v=>{ S.a=v; hits = []; dirty = gdirty = true; }}),
         UI.num({label:'Distance fentes – écran D', min:.5, max:3, step:.1, value:S.D, show:v=>`${fmt(v,1)} m`, on:v=>{ S.D=v; hits = []; dirty = gdirty = true; }}),
+        (() => { const bt = document.createElement('button'); bt.className = 'btn'; bt.textContent = '➖ Boucher une fente (diffraction)'; bt.addEventListener('click', () => { S.mode = 'diff'; S.da = clamp(Math.round(S.a*1000/5/5)*5, 20, 200); renderSteps(); }); return bt; })(),
         UI.toggle('Envoyer les photons un par un', S.oneByOne, v => { S.oneByOne = v; hits = []; dirty = true; })));
     } else if(S.mode === 'diff'){
       box.appendChild(UI.step(2, 'La lumière', 'Laser d’une seule couleur.', lamStep(S.lam, v => S.lam = v),
         UI.seg([[633,'633 <small>rouge</small>'],[532,'532 <small>vert</small>'],[450,'450 <small>bleu</small>']], S.lam, v => { S.lam = v; renderSteps(); })));
       box.appendChild(UI.step(3, 'L’obstacle', 'Plus il est étroit, plus la lumière s’étale.',
+        (() => { const bt = document.createElement('button'); bt.className = 'btn'; bt.textContent = '➕ Ajouter une 2ᵉ fente (fentes de Young)'; bt.addEventListener('click', () => { S.mode = 'young'; S.white = false; S.oneByOne = false; hits = []; renderSteps(); }); return bt; })(),
         UI.toggle('Un cheveu (un fil) au lieu d’une fente', S.hair, v => { S.hair = v; dirty = gdirty = true; renderSteps(); }),
         UI.num({label: S.hair ? 'Épaisseur du fil a' : 'Largeur de la fente a', min:20, max:200, step:5, value:S.da, show:v=>`${v} µm`, on:v=>{ S.da=v; dirty = gdirty = true; }}),
         UI.num({label:'Distance à l’écran D', min:1, max:3, step:.1, value:S.dD, show:v=>`${fmt(v,1)} m`, on:v=>{ S.dD=v; dirty = gdirty = true; }})));
@@ -2815,35 +2909,53 @@ const OND = (() => {
     if(box.hidden || box.classList.contains('mini')) return;
     const r = hiDPI(scv), q = r.ctx, w = r.W, h = r.H;
     q.fillStyle = '#05060d'; q.fillRect(0,0,w,h);
-    const lam = S.white ? 14 : 9 + (S.lam - 400)/300*9, d = clamp(S.a*6, 1.6, 5.5)*lam;
-    const x0 = 22, cy = h/2, s1 = [x0, cy - d/2], s2 = [x0, cy + d/2];
     const col = S.white ? [255,255,255] : waveRGB(S.lam);
-    /* cercles : crêtes en trait plein, creux en pointillés */
-    for(let n=1; n*lam < w*1.2; n++){
-      [s1,s2].forEach(c => {
-        q.strokeStyle = rgbCSS(col,.55); q.lineWidth = 1.1; q.setLineDash([]); q.beginPath(); q.arc(c[0], c[1], n*lam, -Math.PI/2, Math.PI/2); q.stroke();
-        q.strokeStyle = 'rgba(160,159,191,.35)'; q.setLineDash([2,3]); q.beginPath(); q.arc(c[0], c[1], (n-.5)*lam, -Math.PI/2, Math.PI/2); q.stroke();
-      });
-    }
+    /* schéma (pas à l'échelle) : laser, deux fentes S₁ S₂, écran à droite */
+    const lam = 5 + ((S.white ? 560 : S.lam) - 400)/300*3;
+    const a = Math.min(clamp(S.a*16, 4, 16)*lam, h*.42), x0 = 34, xs = w - 40, cy = h*.47, D = xs - x0;
+    const F1 = [x0, cy - a/2], F2 = [x0, cy + a/2];
+    /* laser et plaque */
+    q.fillStyle = '#2b2f55'; q.fillRect(4, cy - 5, 16, 10); q.fillStyle = rgbCSS(col); q.fillRect(19, cy - 2, 3, 4);
+    q.strokeStyle = rgbCSS(col,.6); q.lineWidth = 1; for(let x = 24; x < x0 - 2; x += 4){ q.beginPath(); q.moveTo(x, cy - 9); q.lineTo(x, cy + 9); q.stroke(); }
+    q.fillStyle = '#8a8fb8'; q.fillRect(x0 - 2, 6, 4, F1[1] - 2 - 6); q.fillRect(x0 - 2, F1[1] + 2, 4, a - 4); q.fillRect(x0 - 2, F2[1] + 2, 4, h - 22 - F2[1]);
+    /* écran et franges : intensité réelle du schéma, I ∝ cos²(π δ / λ) */
+    const delta = y => Math.hypot(xs - F2[0], y - F2[1]) - Math.hypot(xs - F1[0], y - F1[1]);
+    for(let y = 6; y < h - 22; y++){ const I = Math.cos(Math.PI*delta(y)/lam)**2; q.fillStyle = rgbCSS(col, .15 + .85*I); q.fillRect(xs, y, 9, 1); }
+    q.strokeStyle = '#d9d6c8'; q.lineWidth = 1; q.strokeRect(xs - .5, 5.5, 10, h - 27);
+    /* lignes d'interférence constructive (pointillés fins) jusqu'à l'écran */
+    const hyper = (Dl) => { q.beginPath(); let first = true;
+      for(let r1 = Math.abs(Dl) + .5; r1 < D*1.4; r1 += 2){ const r2 = r1 + Dl, yy = (r1*r1 - r2*r2)/(2*a), xx2 = r1*r1 - (yy + a/2)**2; if(xx2 < 0) continue;
+        const X = x0 + Math.sqrt(xx2), Y = cy + yy; if(X > xs) break; first ? q.moveTo(X,Y) : q.lineTo(X,Y); first = false; } q.stroke(); };
+    q.setLineDash([2,3]); q.lineWidth = 1;
+    const km = Math.min(4, Math.floor(a/lam));
+    for(let k = -km; k <= km; k++){ q.strokeStyle = k === 0 ? 'rgba(255,210,90,.55)' : 'rgba(255,210,90,.3)'; hyper(k*lam); }
     q.setLineDash([]);
-    /* lignes où |S₁M − S₂M| = kλ (brillantes) ou (k + ½)λ (sombres) */
-    const hyper = (D, style, lw, dash) => {
-      q.strokeStyle = style; q.lineWidth = lw; q.setLineDash(dash); q.beginPath(); let first = true;
-      for(let r1 = Math.abs(D) + .5; r1 < w*1.6; r1 += 2){
-        const r2 = r1 - D, yy = (r1*r1 - r2*r2)/(2*d), xx2 = r1*r1 - (yy + d/2)**2;
-        if(xx2 < 0) continue; const X = x0 + Math.sqrt(xx2), Y = cy + yy;
-        if(X > w) break; first ? q.moveTo(X,Y) : q.lineTo(X,Y); first = false;
-      }
-      q.stroke(); q.setLineDash([]);
-    };
-    const kmax = Math.floor(d/lam);
-    for(let k=-kmax; k<=kmax; k++){ hyper(k*lam, '#ffd25a', 2, []); }
-    for(let k=-kmax; k<kmax; k++){ hyper((k+.5)*lam, 'rgba(120,130,170,.9)', 1.4, [4,3]); }
-    [[s1,'S₁'],[s2,'S₂']].forEach(([c,n]) => { q.fillStyle = '#fff'; q.beginPath(); q.arc(c[0], c[1], 3.5, 0, 6.283); q.fill(); q.font = '700 11px system-ui'; q.fillStyle = '#fff'; q.textAlign = 'right'; q.textBaseline = 'middle'; q.fillText(n, c[0]-6, c[1]); });
-    q.font = '600 10.5px system-ui'; q.textAlign = 'right'; q.textBaseline = 'alphabetic';
-    q.fillStyle = '#ffd25a'; q.fillText('frange brillante : δ = kλ', w - 6, 14);
-    q.fillStyle = '#a3abd6'; q.fillText('frange sombre : δ = (k + ½)λ', w - 6, 28);
-    $('#ond-vs').innerHTML = `Traits pleins : crêtes ; pointillés : creux. Là où deux crêtes se croisent, les ondes s’ajoutent. δ = S₂M − S₁M est la différence de marche. <i>Schéma, pas à l’échelle.</i>`;
+    /* point M sur la frange brillante k = 2 (ou 1) : les deux rayons s'y croisent */
+    const kM = km >= 2 ? 2 : 1;
+    let yM = cy; for(let y = cy; y > 8; y -= .25){ if(delta(y) >= kM*lam){ yM = y; break; } }
+    const M = [xs, yM];
+    q.lineWidth = 1.6; q.strokeStyle = '#6fd3ff'; q.beginPath(); q.moveTo(...F1); q.lineTo(...M); q.stroke();
+    q.strokeStyle = '#ff9a6b'; q.beginPath(); q.moveTo(...F2); q.lineTo(...M); q.stroke();
+    /* différence de marche δ = S₂M − S₁M : la partie du rayon F₂M en trop */
+    const L1 = Math.hypot(M[0]-F1[0], M[1]-F1[1]), L2 = Math.hypot(M[0]-F2[0], M[1]-F2[1]);
+    const ux = (M[0]-F2[0])/L2, uy = (M[1]-F2[1])/L2, Hx = F2[0] + ux*(L2 - L1), Hy = F2[1] + uy*(L2 - L1);
+    q.strokeStyle = '#ff4d6d'; q.lineWidth = 3.5; q.beginPath(); q.moveTo(...F2); q.lineTo(Hx, Hy); q.stroke();
+    q.setLineDash([2,2]); q.strokeStyle = 'rgba(255,255,255,.6)'; q.lineWidth = 1; q.beginPath(); q.moveTo(...F1); q.lineTo(Hx, Hy); q.stroke(); q.setLineDash([]);
+    q.fillStyle = '#fff'; q.beginPath(); q.arc(M[0], M[1], 3, 0, 6.283); q.fill();
+    /* axe, O, x, i */
+    q.setLineDash([3,3]); q.strokeStyle = 'rgba(160,159,191,.6)'; q.beginPath(); q.moveTo(x0, cy); q.lineTo(xs + 10, cy); q.stroke(); q.setLineDash([]);
+    const txt = (t, x, y, c, al='left', f='700 10.5px') => { q.font = f + ' system-ui'; q.textAlign = al; q.textBaseline = 'middle'; q.lineWidth = 3; q.strokeStyle = '#05060d'; q.strokeText(t, x, y); q.fillStyle = c; q.fillText(t, x, y); };
+    txt('S₁', x0 - 5, F1[1] - 7, '#6fd3ff', 'right'); txt('S₂', x0 - 5, F2[1] + 8, '#ff9a6b', 'right');
+    txt('a', x0 + 5, cy, '#cfd0e6');
+    txt('M', M[0] + 13, M[1], '#fff'); txt('O', xs + 13, cy, '#a09fbf');
+    txt('δ', (F2[0] + Hx)/2 + 4, (F2[1] + Hy)/2 + 9, '#ff4d6d', 'left', '800 12px');
+    /* cote x entre O et M */
+    q.strokeStyle = '#ffd25a'; q.lineWidth = 1; q.beginPath(); q.moveTo(xs - 6, cy); q.lineTo(xs - 6, yM); q.stroke(); txt('x', xs - 10, (cy + yM)/2, '#ffd25a', 'right');
+    /* cote D */
+    const yb = h - 12; q.strokeStyle = '#a09fbf'; q.beginPath(); q.moveTo(x0, yb); q.lineTo(xs, yb); q.stroke();
+    [x0, xs].forEach(x => { q.beginPath(); q.moveTo(x, yb - 4); q.lineTo(x, yb + 4); q.stroke(); }); txt('D', (x0 + xs)/2, yb - 7, '#a09fbf', 'center');
+    const iMM = (S.white ? 560 : S.lam)*S.D/(S.a*1000);
+    $('#ond-vs').innerHTML = `Les rayons venus des sources S₁ et S₂ (les deux fentes) se croisent en M sur l’écran. Le rayon venu de S₂ parcourt <b style="color:#ff4d6d">δ = S₂M − S₁M</b> de plus. Frange <b>brillante</b> si δ = kλ (ici k = ${kM}), <b>sombre</b> si δ = (k + ½)λ. Avec δ = a·x/D : franges brillantes en x = kλD/a, espacées de i = λD/a = ${fmtF(iMM,2)} mm. <i>Schéma, pas à l’échelle.</i>`;
   }
 
   /* ---------- Graphique du bas ---------- */
@@ -3074,6 +3186,9 @@ const EX = {
     {grp:'Les couleurs du ciel', id:'midi', t:'Ciel de midi', w:'Soleil haut, ciel bleu profond.', run(){ MIL.set({mode:'ciel', elev:75, dust:false, sea:true}); }},
     {id:'aprem', t:'Fin d’après-midi', w:'Le Soleil jaunit.', run(){ MIL.set({mode:'ciel', elev:12, dust:false, sea:true}); }},
     {id:'coucher', t:'Coucher de soleil sur l’océan', w:'Le bleu est diffusé en chemin : reste le rouge.', run(){ MIL.set({mode:'ciel', elev:1, dust:false, sea:true}); }},
+    {grp:'L’arc-en-ciel', id:'arc-descartes', t:'Le rayon de Descartes', w:'Entrée à 0,86 R : sortie à 42° (rouge) et 40° (violet).', run(){ MIL.set({mode:'arcenciel', rb:.86, rbMany:false}); }},
+    {id:'arc-centre', t:'Un rayon près du centre', w:'Il ressort presque vers le Soleil, couleurs serrées.', run(){ MIL.set({mode:'arcenciel', rb:.3, rbMany:false}); }},
+    {id:'arc-faisceau', t:'20 rayons rouges à la fois', w:'Ils se concentrent tous vers 42° : l’arc apparaît.', run(){ MIL.set({mode:'arcenciel', rbMany:true}); }},
     {id:'harmattan', t:'Harmattan à midi', w:'La poussière blanchit le ciel et pâlit le Soleil.', run(){ MIL.set({mode:'ciel', elev:60, dust:true, sea:false}); }}
   ],
   images: [
@@ -3230,6 +3345,7 @@ const DEFIS = [
   {id:'d-arc', tab:'milieux', t:'Les feux du diamant', w:'Fais sortir un arc-en-ciel d’un prisme de diamant.', ok:() => MIL.S.mode==='prisme' && MIL.S.pmat==='diamant' && MIL.S.white && !MIL.M.tir && MIL.M.onScreen > 3},
   {id:'d-fibre', tab:'milieux', t:'Internet sous l’océan', w:'Guide la lumière jusqu’au bout d’une fibre courbée, avec un angle d’entrée d’au moins 10°.', ok:() => MIL.S.mode==='fibre' && MIL.S.fbend!=='droite' && MIL.S.fth >= 10 && MIL.M.guided},
   {id:'d-soleil', tab:'milieux', t:'Soleil rouge', w:'Rends le Soleil rouge-orangé, sans poussière.', ok:() => MIL.S.mode==='ciel' && !MIL.S.dust && MIL.M.sunRed},
+  {id:'d-arc42', tab:'milieux', t:'Le rayon de Descartes', w:'Dans la goutte, fais ressortir le rouge à plus de 42,2°.', ok:() => MIL.S.mode==='arcenciel' && !MIL.S.rbMany && MIL.M.rbR > 42.2},
   {id:'d-prof', tab:'milieux', t:'L’illusion de la piscine', w:'Fais paraître la pièce à moins de 60 % de sa profondeur réelle.', ok:() => MIL.S.mode==='profondeur' && MIL.M.ratio < .6},
   {id:'d-g2', tab:'images', t:'Agrandir deux fois', w:'Avec une lentille convergente, forme une image réelle deux fois plus grande que l’objet.', ok:() => IMG.S.inst==='lentille' && IMG.S.ltype==='conv' && !IMG.S.inf && IMG.M.L && IMG.M.L.OAp > 0 && Math.abs(Math.abs(IMG.M.L.gam) - 2) < .06},
   {id:'d-net', tab:'images', t:'Mise au point à la main', w:'Écran en mode manuel : place-le pour obtenir une image nette (objet à moins de 40 cm).', ok:() => IMG.S.inst==='lentille' && !IMG.S.eAuto && !IMG.S.inf && IMG.S.OA > -40 && IMG.M.L && IMG.M.L.OAp > 0 && Math.abs(IMG.S.xe - IMG.M.L.OAp) < .35},
@@ -3275,6 +3391,7 @@ const QUIZ = [
   {q:'Un rayon passe de l’air dans l’eau en biais. Que fait-il ?', o:['Il continue tout droit','Il se rapproche de la normale','Il s’écarte de la normale'], a:1, e:'L’eau est plus réfringente que l’air (n = 1,33) : la lumière ralentit et se rapproche de la normale.', tab:'milieux', ex:'air-eau'},
   {q:'Dans un prisme, quelle couleur est la plus déviée ?', o:['Le rouge','Le vert','Le violet'], a:2, e:'L’indice du verre est plus grand pour le violet : il est plus dévié. C’est la dispersion.', tab:'milieux', ex:'prisme-verre'},
   {q:'Pourquoi le Soleil couchant est-il rouge ?', o:['Il refroidit le soir','Sa lumière traverse beaucoup d’air qui diffuse le bleu','La mer reflète du rouge'], a:1, e:'À l’horizon, la lumière traverse jusqu’à 38 fois plus d’air : le bleu, très diffusé, est perdu en chemin.', tab:'milieux', ex:'coucher'},
+  {q:'Dans un arc-en-ciel, quelle couleur est à l’extérieur ?', o:['Le violet','Le vert','Le rouge'], a:2, e:'Le rouge ressort de la goutte à 42°, le violet à 40° : le rouge forme le bord extérieur de l’arc.', tab:'milieux', ex:'arc-descartes'},
   {q:'Objet à 30 cm d’une lentille convergente de 10 cm de focale : où est l’image ?', o:['À 15 cm, réelle et renversée','À 30 cm, de même taille','Virtuelle, du côté de l’objet'], a:0, e:'1/OA′ = 1/10 − 1/30 = 1/15 → OA′ = 15 cm ; γ = −0,5 : image réelle, renversée, deux fois plus petite.', tab:'images', ex:'loin'},
   {q:'Peut-on recueillir sur un écran l’image donnée par une loupe ?', o:['Oui, toujours','Non, elle est virtuelle','Seulement au soleil'], a:1, e:'Objet entre F et la lentille : les rayons divergent, seuls leurs prolongements se croisent. L’image est virtuelle.', tab:'images', ex:'virt'},
   {q:'Un myope de −2 δ, sans lunettes, voit net jusqu’à :', o:['25 cm','50 cm','2 m'], a:1, e:'Son punctum remotum est à 1/2 = 0,5 m. Au-delà, l’image se forme devant la rétine.', tab:'oeil', ex:'m-pres'},
