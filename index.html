@@ -456,6 +456,25 @@ body.lvl1 .certwhy{display:none!important}
 }
 .bcard{display:flex;flex-direction:column}
 .printnote{font-size:11px;color:var(--muted)}
+
+/* Frise du temps (avancer, reculer la lumière) et repères aux moments clés */
+.tline{display:flex;align-items:center;gap:8px;padding:4px 10px 8px;background:#0b0c1d;flex:none}
+.tline .tlk{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.tltrack{position:relative;flex:1;min-width:0;padding-top:14px}
+.tltrack input{width:100%;accent-color:var(--accent);display:block}
+.tltrack .keys{position:absolute;left:8px;right:8px;top:0;height:14px}
+.tltrack .keys button{position:absolute;transform:translateX(-50%);top:0;border:1px solid var(--accent);background:#2a2208;color:#fde4a0;border-radius:999px;font:700 10px system-ui;line-height:1;padding:1px 5px;min-width:18px}
+.tltrack .keys button:hover{background:var(--accent);color:var(--accent-ink)}
+.tline.off{display:none}
+.tb[data-do="loop"][aria-pressed="true"]{background:#3a2c08;color:#fde4a0}
+.speed .spv{font-size:12px;color:#fde4a0;min-width:30px}
+.vbox.left{left:10px;right:auto}
+.view>canvas{transform-origin:0 0;cursor:crosshair}
+@media (orientation:portrait) and (max-width:1000px){ .tline{padding:2px 6px 5px} .speed span:first-child{display:none} .speed input{width:64px} }
+
+#sim-ondes .tb[data-do="loop"]{display:none}
+#ond-vbox{width:min(235px,30%)}
+#ond-vbox canvas{aspect-ratio:16/11}
 </style>
 </head>
 <body>
@@ -463,7 +482,7 @@ body.lvl1 .certwhy{display:none!important}
 <header class="top" id="top">
   <div class="brand">
     <div class="logo opt" aria-hidden="true"></div>
-    <div style="min-width:0"><span class="bt">L'Atelier Optique<span class="beta">bêta 1</span></span><small>La lumière, les lentilles, l'œil, les ondes et les photons — sciences physiques, collège · lycée</small></div>
+    <div style="min-width:0"><span class="bt">L'Atelier Optique<span class="beta">bêta 2</span></span><small>La lumière, les lentilles, l'œil, les ondes et les photons — sciences physiques, collège · lycée</small></div>
   </div>
   <button class="hbtn" id="btnMenu" aria-expanded="false" aria-controls="hctl" title="Options d'affichage"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
   <div class="hctl" id="hctl">
@@ -545,9 +564,12 @@ body.lvl1 .certwhy{display:none!important}
       <div class="transport">
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="mil-main" title="Action principale (barre d'espace)"></button>
+        <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
+        <span class="speed" title="Vitesse de l’animation"><span>Vitesse</span><input type="range" min="0.1" max="2" step="0.1" value="1" aria-label="Vitesse de l’animation"><b class="mono spv">×1</b></span>
         <span class="readout" id="mil-readout"></span>
         <button class="tb fsBtn" data-do="fs" title="Scène en plein écran (F ; Échap pour revenir)" aria-label="Plein écran"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
+      <div class="tline"><span class="tlk">Départ</span><div class="tltrack"><input type="range" min="0" max="1000" value="1000" aria-label="Frise du temps : avancer ou reculer la lumière"><div class="keys"></div></div><span class="tlk">Arrivée</span></div>
     </div>
     <div class="bottom">
       <div class="card bcard cur" data-b="exp"><div class="btitle"><span>Explication</span></div><p id="mil-p"></p>
@@ -585,9 +607,12 @@ body.lvl1 .certwhy{display:none!important}
       <div class="transport">
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="img-main" title="Action principale (barre d'espace)"></button>
+        <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
+        <span class="speed" title="Vitesse de l’animation"><span>Vitesse</span><input type="range" min="0.1" max="2" step="0.1" value="1" aria-label="Vitesse de l’animation"><b class="mono spv">×1</b></span>
         <span class="readout" id="img-readout"></span>
         <button class="tb fsBtn" data-do="fs" title="Scène en plein écran (F ; Échap pour revenir)" aria-label="Plein écran"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
+      <div class="tline"><span class="tlk">Départ</span><div class="tltrack"><input type="range" min="0" max="1000" value="1000" aria-label="Frise du temps : avancer ou reculer la lumière"><div class="keys"></div></div><span class="tlk">Arrivée</span></div>
     </div>
     <div class="bottom">
       <div class="card bcard cur" data-b="exp"><div class="btitle"><span>Explication</span></div><p id="img-p"></p>
@@ -660,10 +685,13 @@ body.lvl1 .certwhy{display:none!important}
           <div class="status" id="ond-status"></div>
         </div></div>
         <div class="ov ovleg mini"><div class="ib"><div class="lt">Légende</div><div class="lb" id="ond-leg"></div></div></div>
+        <div class="vbox left" id="ond-vbox" hidden><div class="vt">Schéma du cours : deux sources</div><canvas id="ond-vcanvas"></canvas><div class="vs" id="ond-vs"></div></div>
       </div>
       <div class="transport">
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="ond-main" title="Action principale (barre d'espace)"></button>
+        <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
+        <span class="speed" title="Vitesse de l’animation"><span>Vitesse</span><input type="range" min="0.1" max="2" step="0.1" value="1" aria-label="Vitesse de l’animation"><b class="mono spv">×1</b></span>
         <span class="readout" id="ond-readout"></span>
         <button class="tb fsBtn" data-do="fs" title="Scène en plein écran (F ; Échap pour revenir)" aria-label="Plein écran"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
@@ -733,7 +761,11 @@ const ICON = {
   glasses:'<svg class="ic" viewBox="0 0 24 24"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 14 2 9M21 14l1-5"/></svg>',
   sun:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>'
 };
-const state = { tab:'milieux', demo:false, light: store.get('ao-light', false), exOn:{} };
+const state = { tab:'milieux', demo:false, light: store.get('ao-light', false), exOn:{}, speed:1, loop: store.get('ao-loop', false) };
+/* Frise du temps : longueur totale du trajet et moments clés, collectés pendant le dessin */
+const TLC = { max:0, keys:[] };
+function tlReset(){ TLC.max = 0; TLC.keys = []; }
+function tlInfo(){ const k = TLC.keys.sort((a,b)=>a-b), out = []; k.forEach(v => { if(v > 8 && v < TLC.max - 8 && !out.some(o => Math.abs(o - v) < Math.max(14, TLC.max*.04))) out.push(v); }); return {max:TLC.max, keys:out.slice(0,6)}; }
 
 function hiDPI(cv){
   const d = state.light ? 1 : Math.min(2, window.devicePixelRatio||1);
@@ -877,8 +909,11 @@ function trace(scene, x, y, dx, dy, l, opt={}){
 /* Dessin progressif des segments (animation « suivre la lumière ») */
 function drawSegs(g, segs, color, reveal, width=2.2, glow=true){
   for(const s of segs){
+    const L0 = Math.hypot(s.x2-s.x1, s.y2-s.y1);
+    if(s.d0 + L0 > TLC.max) TLC.max = s.d0 + L0;
+    if((s.gen||0) === 0 && s.I > .5 && L0 > 2) TLC.keys.push(s.d0 + L0);
     if(s.d0 > reveal) continue;
-    const L = Math.hypot(s.x2-s.x1, s.y2-s.y1), f = clamp((reveal - s.d0)/Math.max(L,1e-6),0,1);
+    const L = L0, f = clamp((reveal - s.d0)/Math.max(L,1e-6),0,1);
     const x2 = s.x1 + (s.x2-s.x1)*f, y2 = s.y1 + (s.y2-s.y1)*f;
     const a = clamp(Math.pow(s.I,.6),0.08,1);
     if(glow && !state.light){ g.strokeStyle = color(a*.25); g.lineWidth = width*3.2; g.beginPath(); g.moveTo(s.x1,s.y1); g.lineTo(x2,y2); g.stroke(); }
@@ -1137,16 +1172,34 @@ const MIL = (() => {
   function frame(dt){
     let anim = false;
     if(S.playing){
-      if(S.mode === 'ciel'){ S.dayT += dt; S.elev += dt*9; if(S.elev > 90){ S.elev = -4; } anim = true; }
-      else { S.reveal += dt * Math.max(W,H) * .45; if(S.reveal > 4*Math.max(W,H)){ S.reveal = Infinity; S.playing = false; updMain(); } anim = true; }
+      if(S.mode === 'ciel'){ S.dayT += dt; S.elev += dt*6; if(S.elev > 90){ if(state.loop) S.elev = -4; else { S.elev = 90; S.playing = false; updMain(); } } anim = true; }
+      else { S.reveal += dt * Math.max(W,H) * .3; if(S.reveal > (TL.max || 4*Math.max(W,H)) + 30){ if(state.loop){ S.reveal = 0; } else { S.reveal = Infinity; S.playing = false; updMain(); } } anim = true; }
     }
     if(!dirty && !anim) return;
     dirty = false;
     g.setTransform(cv.width/W,0,0,cv.height/H,0,0);
     g.clearRect(0,0,W,H);
+    tlReset();
     ({dioptre:drawDioptre, prisme:drawPrisme, fibre:drawFibre, profondeur:drawProf, ciel:drawCiel})[S.mode]();
     texts();
+    if(S.mode !== 'ciel') TL = tlInfo();
   }
+  let TL = {max:0, keys:[]};
+  function setReveal(f){ S.reveal = f >= .999 ? Infinity : f*TL.max; S.playing = false; updMain(); dirty = true; }
+  function tl(){ return S.mode === 'ciel' ? null : {max:TL.max, keys:TL.keys, frac: isFinite(S.reveal) ? clamp(S.reveal/Math.max(1,TL.max),0,1) : 1}; }
+  /* Glisser sur la scène pour régler directement */
+  function drag(x, y, phase){
+    const m = S.mode;
+    if(m === 'dioptre'){ const yI = H*.53; if(y >= yI - 4) return false; S.i = clamp(Math.round(Math.abs(Math.atan2(W*.5 - x, yI - y))*R2D), 0, 89); }
+    else if(m === 'prisme') S.pi = clamp(Math.round(85*(1 - y/H)), 0, 85);
+    else if(m === 'fibre'){ const F = fibreGeo(); if(x >= F.x0) return false; S.fth = clamp(Math.round(Math.abs(Math.atan2(F.yc - y, F.x0 - x))*R2D), 0, 60); }
+    else if(m === 'profondeur') S.alpha = clamp(Math.round(20 + 70*(1 - y/(H*.38))), 20, 90);
+    else if(m === 'ciel'){ const hz = H*.68; S.elev = clamp(Math.round(90*(hz - y)/(hz - 30)), -4, 90); S.playing = false; updMain(); }
+    S.reveal = Infinity; if(m !== 'ciel') S.playing = false;
+    if(phase === 'end') renderSteps();
+    dirty = true; return true;
+  }
+  const HINT = {dioptre:'fais glisser au-dessus de la surface pour changer l’angle du rayon', prisme:'fais glisser vers le haut ou le bas pour changer l’angle d’incidence', fibre:'fais glisser à gauche de la fibre pour orienter le laser', profondeur:'fais glisser verticalement pour changer la hauteur du regard', ciel:'fais glisser verticalement pour monter ou descendre le Soleil'};
 
   /* --- 1. Réfraction entre deux milieux --- */
   function drawDioptre(){
@@ -1175,7 +1228,7 @@ const MIL = (() => {
     const s2 = n1/n2*Math.sin(a), tir = s2 > 1, i2 = tir ? null : Math.asin(s2);
     const R = tir ? 1 : fresnelR(n1,n2,Math.cos(a));
     Object.assign(M, {n1,n2,i1:S.i,i2:tir?null:i2*R2D,tir,R, lim: n1>n2 ? Math.asin(n2/n1)*R2D : null});
-    if(S.reveal > 1e5 || !S.playing){
+    {
       if(level >= 2 && S.i > 0){
         DR.arc(g, px, yI, 46, -Math.PI/2, -Math.PI/2 - a, '#ffd25a');
         DR.text(g, level>=3 ? `i₁ = ${S.i}°` : 'i₁', px - 52*Math.sin(a/2) - 8, yI - 58*Math.cos(a/2), '#ffd25a', 13, 'right');
@@ -1252,7 +1305,7 @@ const MIL = (() => {
     g.globalCompositeOperation = 'source-over';
     DR.laser(g, sx, sy, Math.atan2(d[1], d[0]), S.white ? '#fff' : waveCSS(S.plam,1));
     /* taches sur l'écran */
-    if(S.reveal > 1e5){
+    {
       g.globalCompositeOperation = 'lighter';
       hitsScreen.forEach(([y,l,I]) => { g.fillStyle = waveCSS(l, Math.min(1,I*(S.white?.9:1))); g.fillRect(ex, y-(S.white?6:3), 8, S.white?12:6); });
       g.globalCompositeOperation = 'source-over';
@@ -1267,7 +1320,7 @@ const MIL = (() => {
     const sr = nr*Math.sin(A - Math.asin(Math.sin(i)/nr)), sb = nb*Math.sin(A - Math.asin(Math.sin(i)/nb));
     const spread = (sr<=1 && sb<=1) ? (Math.asin(sb) - Math.asin(sr))*R2D : null;
     Object.assign(M, {n, r:r*R2D, r2:r2*R2D, i2: i2===null?null:i2*R2D, D: D===null?null:D*R2D, Dm: isNaN(Dm)?null:Dm*R2D, tir: tir || tirAny, spread, lc, onScreen: hitsScreen.length});
-    if(level >= 3 && S.reveal > 1e5 && !tir) DR.text(g, `D = ${fmt(D*R2D,1)}°`, P.br[0] + 20, P.br[1] + 18, '#ffd25a', 13);
+    if(level >= 3 && !tir) DR.text(g, `D = ${fmt(D*R2D,1)}°`, P.br[0] + 20, P.br[1] + 18, '#ffd25a', 13);
     $('#mil-readout').innerHTML = `<span class="k">i</span> ${S.pi}° <span class="k">·</span> <span class="k">n(${lc} nm)</span> ${fmtF(n,3)} <span class="k">·</span> ` + (tir ? 'réflexion totale sur la 2ᵉ face' : `<span class="k">déviation D</span> ${fmt(D*R2D,1)}°`) + (S.white && spread ? ` <span class="k">· éventail</span> ${fmt(spread,1)}°` : '');
   }
 
@@ -1337,7 +1390,7 @@ const MIL = (() => {
       DR.arc(g, F.x0, F.yc, 40, Math.PI, Math.PI + th, '#ffd25a');
       if(S.fth) DR.text(g, level>=3 ? `θ = ${S.fth}°` : 'θ', F.x0 - 48, F.yc + Math.sign(th)*16, '#ffd25a', 12, 'right');
     }
-    if(S.reveal > 1e5) DR.text(g, M.guided ? `✓ Lumière guidée jusqu’au bout · ${ntir} réflexions totales` : '✗ La lumière s’échappe de la fibre', W/2, H - 18, M.guided ? '#4fd18b' : '#ff6b6b', 14, 'center', 'middle', 800);
+    DR.text(g, M.guided ? `✓ Lumière guidée jusqu’au bout · ${ntir} réflexions totales` : '✗ La lumière s’échappe de la fibre', W/2, H - 18, M.guided ? '#4fd18b' : '#ff6b6b', 14, 'center', 'middle', 800);
     $('#mil-readout').innerHTML = `<span class="k">θ</span> ${S.fth}° <span class="k">·</span> <span class="k">angle limite cœur/${S.fgaine?'gaine':'air'}</span> ${fmt(lim,1)}° <span class="k">·</span> ${M.guided ? 'guidée' : 'fuite'}`;
   }
 
@@ -1381,7 +1434,7 @@ const MIL = (() => {
     /* profondeur apparente le long de la verticale de la pièce (méthode des manuels) */
     const hv = ta < 1e-3 ? S.h/n : (rc.X - x0)/Math.tan(ta)/scale;
     const hImg = (iy - sY)/scale;
-    if(S.reveal > 1e5){
+    {
       [b1,b2].forEach(b => { const t = Math.hypot(ix-b.x, iy-b.y); DR.dash(g, b.x, b.y, b.x + b.dx*t, b.y + b.dy*t, 'rgba(255,210,90,.7)', 1.3, [5,4]); });
       coin(ix, iy+3, .5);
       if(level >= 2){
@@ -1580,7 +1633,7 @@ const MIL = (() => {
     }
   }
 
-  return { S, M, renderSteps, resize, frame, main, reset, replay, dirty(){ dirty = true; }, set(o){ Object.assign(S, o); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = true; }, canvas: cv };
+  return { S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.mode]; }, dirty(){ dirty = true; }, set(o){ Object.assign(S, o); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = true; }, canvas: cv };
 })();
 
 /* =========================================================
@@ -1690,15 +1743,35 @@ const IMG = (() => {
   function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = vdirty = true; }
   function frame(dt){
     let anim = false;
-    if(S.playing){ S.reveal += dt*Math.max(W,H)*.5; if(S.reveal > 3.2*Math.max(W,H)){ S.reveal = Infinity; S.playing = false; updMain(); } anim = true; }
+    if(S.playing){ S.reveal += dt*Math.max(W,H)*.32; if(S.reveal > (TL.max || 3.2*Math.max(W,H)) + 30){ if(state.loop) S.reveal = 0; else { S.reveal = Infinity; S.playing = false; updMain(); } } anim = true; }
     if(!dirty && !anim) return;
     dirty = false;
     g.setTransform(cv.width/W,0,0,cv.height/H,0,0);
     g.fillStyle = '#05060d'; g.fillRect(0,0,W,H);
+    tlReset();
     ({lentille:drawLens, miroir:drawMirror, loupe:drawLoupe, photo:drawPhoto, lunette:drawLunette})[S.inst]();
     if(vdirty){ vdirty = false; drawInset(); }
     texts();
+    TL = tlInfo();
   }
+  let TL = {max:0, keys:[]};
+  function setReveal(f){ S.reveal = f >= .999 ? Infinity : f*TL.max; S.playing = false; updMain(); dirty = true; }
+  function tl(){ return {max:TL.max, keys:TL.keys, frac: isFinite(S.reveal) ? clamp(S.reveal/Math.max(1,TL.max),0,1) : 1}; }
+  /* Glisser sur la scène : objet, écran, mise au point, oculaire */
+  function drag(x, y, phase){
+    const xc = (x - ox)/sx, i = S.inst;
+    if(i === 'lentille'){
+      if(xc < 0){ S.inf = false; S.OA = clamp(Math.round(xc), -60, -1); }
+      else { S.eAuto = false; S.xe = clamp(Math.round(xc*2)/2, 1, 70); }
+    } else if(i === 'miroir'){ if(xc >= 0) return false; S.SA = clamp(Math.round(xc), -60, -2); }
+    else if(i === 'loupe'){ const st = S.lf/20; S.lOA = clamp(Math.round(xc/st)*st, -1.5*S.lf, -.2*S.lf); }
+    else if(i === 'photo'){ if(xc <= 0) return false; S.pAuto = false; const dmax = +(S.pf*S.pf/(500 - S.pf) + S.pf + .5).toFixed(1); S.pd = clamp(Math.round(xc*10)/10, S.pf, dmax); }
+    else if(i === 'lunette'){ S.dz = clamp(Math.round((xc - S.f1 - S.f2)*10)/10, -1, 1); }
+    S.reveal = Infinity; S.playing = false; updMain();
+    if(phase === 'end') renderSteps();
+    vdirty = dirty = true; return true;
+  }
+  const HINT = {lentille:'fais glisser à gauche de la lentille pour déplacer l’objet, à droite pour déplacer l’écran', miroir:'fais glisser devant le miroir pour déplacer l’objet', loupe:'fais glisser pour approcher ou éloigner l’objet de la loupe', photo:'fais glisser derrière l’objectif pour régler la mise au point à la main', lunette:'fais glisser près de l’oculaire pour dérégler ou régler la lunette'};
 
   /* Rayon en pixels avec dessin progressif (d0 = longueur déjà parcourue en px) */
   function pathSegs(pts, I=1){
@@ -1714,7 +1787,7 @@ const IMG = (() => {
     segs.forEach(s => { if(s.d0 + Math.hypot(s.x2-s.x1,s.y2-s.y1) < S.reveal && Math.hypot(s.x2-s.x1,s.y2-s.y1) > 60) DR.midArrow(g, s.x1, s.y1, s.x2, s.y2, c(I)); });
   }
   const rgba = (hex, a=1) => { const n = parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; };
-  function dashW(x1,y1,x2,y2,col='rgba(201,201,224,.75)'){ if(S.reveal < 1e5) return; DR.dash(g, PX(x1), PY(y1), PX(x2), PY(y2), col, 1.3, [5,4]); }
+  function dashW(x1,y1,x2,y2,col='rgba(201,201,224,.75)'){ DR.dash(g, PX(x1), PY(y1), PX(x2), PY(y2), col, 1.3, [5,4]); }
 
   function axis(){
     g.strokeStyle = 'rgba(160,159,191,.55)'; g.lineWidth = 1; g.beginPath(); g.moveTo(0, PY(0)); g.lineTo(W, PY(0)); g.stroke();
@@ -1811,13 +1884,13 @@ const IMG = (() => {
       objArrow(xB, yB, OBJ, ['A','B']);
     }
     /* image */
-    if(S.reveal > 1e5 && isFinite(L.OAp) && isFinite(L.yBp)){
+    if(isFinite(L.OAp) && isFinite(L.yBp)){
       const vis = L.OAp >= X0 && L.OAp <= X1 && Math.abs(L.yBp) < YM*1.3;
       if(vis) objArrow(L.OAp, L.yBp, IMC, ['A′','B′'], L.OAp < 0);
       offView(L.OAp, L.yBp);
-    } else if(S.reveal > 1e5) offView(Infinity, 0);
+    } else offView(Infinity, 0);
     /* cotes */
-    if(level >= 2 && S.reveal > 1e5 && !S.inf){
+    if(level >= 2 && !S.inf){
       DR.cote(g, PX(xB), PX(0), PY(-R) + 16, level >= 3 ? `${ov('')}OA = ${minus(fmt(xB,0))} cm`.replace(/<[^>]+>/g,'') : '');
       if(isFinite(L.OAp) && L.OAp >= X0 && L.OAp <= X1) DR.cote(g, PX(0), PX(L.OAp), PY(-R) + 32, level >= 3 ? `OA′ = ${minus(fmt(L.OAp,1))} cm` : '');
     }
@@ -1861,10 +1934,10 @@ const IMG = (() => {
     draw(0, rgba(RC2));
     if(isFinite(Mi.SC) && Math.abs(xB - Mi.SC) > .3){ const h3 = yB*Mi.SC/(Mi.SC - xB); if(Math.abs(h3) < R*1.4) draw(h3, rgba(RC3)); }
     objArrow(xB, yB, OBJ, ['A','B']);
-    if(S.reveal > 1e5 && isFinite(Mi.SAp)){
+    if(isFinite(Mi.SAp)){
       if(Mi.SAp >= X0 && Mi.SAp <= X1 && Math.abs(Mi.yBp) < YM*1.3) objArrow(Mi.SAp, Mi.yBp, IMC, ['A′','B′'], Mi.SAp > 0);
       offView(Mi.SAp, Mi.yBp);
-    } else if(S.reveal > 1e5) offView(Infinity, 0);
+    } else offView(Infinity, 0);
     M.Mi = Mi;
     const real = Mi.SAp < 0;
     $('#img-readout').innerHTML = `<span class="k">SA</span> ${minus(S.SA)} cm <span class="k">· SA′</span> ${isFinite(Mi.SAp) ? minus(fmt(Mi.SAp,1))+' cm' : '∞'} <span class="k">· γ</span> ${isFinite(Mi.gam) ? minus(fmtF(Mi.gam,2)) : '∞'} <span class="k">·</span> ${!isFinite(Mi.SAp) ? 'image à l’infini' : real ? 'image réelle (devant le miroir)' : 'image virtuelle (derrière le miroir)'}`;
@@ -1889,8 +1962,8 @@ const IMG = (() => {
     draw(yB, rgba(RC)); draw(0, rgba(RC2));
     if(Math.abs(OA + f) > f*.03){ const h3 = yB*f/(f + OA); if(Math.abs(h3) < R*1.5) draw(h3, rgba(RC3)); }
     objArrow(OA, yB, OBJ, ['A','B']);
-    if(S.reveal > 1e5 && isFinite(OAp)){ if(OAp >= X0 && OAp <= X1 && Math.abs(gam*yB) < YM*1.3) objArrow(OAp, gam*yB, IMC, ['A′','B′'], OAp < 0); offView(OAp, gam*yB); }
-    else if(S.reveal > 1e5) offView(Infinity,0);
+    if(isFinite(OAp)){ if(OAp >= X0 && OAp <= X1 && Math.abs(gam*yB) < YM*1.3) objArrow(OAp, gam*yB, IMC, ['A′','B′'], OAp < 0); offView(OAp, gam*yB); }
+    else offView(Infinity,0);
     /* grossissement : θ (à 25 cm) et θ′ (à travers la loupe) */
     const theta = yB/25, thetap = isFinite(OAp) ? Math.abs(gam*yB)/Math.abs(OAp - eyeX) : yB/f;
     const G = OAp < 0 || !isFinite(OAp) ? thetap/theta : null;
@@ -1929,7 +2002,7 @@ const IMG = (() => {
     /* rayons du fond (à l'infini), faisceau légèrement incliné */
     const sb = -.09;
     [-1,0,1].forEach(k => { const h = k*R*.8, so = sb - h/f; ray([[X0, h + sb*X0], [0, h], [d, h + so*d]], rgba(RC3, .8), 1.2, .7); });
-    if(S.reveal > 1e5){
+    if(true){
       g.fillStyle = IMC; g.beginPath(); g.arc(PX(dI), PY(0), 3.5, 0, 6.283); g.fill();
       if(level >= 2) DR.text(g, 'image du sujet', PX(dI), PY(0) + 16, IMC, 12, 'center');
       if(level >= 2){ DR.cote(g, PX(0), PX(d), PY(-YM*.75), level >= 3 ? `d = ${fmt(d,1)} mm` : ''); }
@@ -1963,7 +2036,7 @@ const IMG = (() => {
     });
     /* image intermédiaire */
     const y1 = s*f1;
-    if(S.reveal > 1e5){ objArrow(f1, y1, IMC, level>=2 ? ['A₁','B₁'] : null); }
+    if(true){ objArrow(f1, y1, IMC, level>=2 ? ['A₁','B₁'] : null); }
     const G = f1/f2;
     const afocal = Math.abs(S.dz) < 1e-6;
     let imgD = null;
@@ -2154,7 +2227,7 @@ const IMG = (() => {
     }
   }
 
-  return { S, M, renderSteps, resize, frame, main, reset, replay, dirty(){ dirty = vdirty = true; }, set(o){ Object.assign(S, o); if(o.inst === 'photo' && S.pAuto) autoFocus(); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = vdirty = true; }, canvas: cv, vcanvas: vcv };
+  return { S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.inst]; }, dirty(){ dirty = vdirty = true; }, set(o){ Object.assign(S, o); if(o.inst === 'photo' && S.pAuto) autoFocus(); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = vdirty = true; }, canvas: cv, vcanvas: vcv };
 })();
 
 /* =========================================================
@@ -2499,7 +2572,16 @@ const OEIL = (() => {
     $('#oeil-readout').innerHTML = `<span class="k">Δ</span> ${(R.dv>=0?'+':'−')+fmtF(Math.abs(R.dv),2)} δ <span class="k">· image</span> ${net ? 'sur la rétine' : off < 0 ? fmt(-off,2)+' mm devant' : fmt(off,2)+' mm derrière'} <span class="k">· accommodation</span> ${fmtF(R.acc,2)}/${fmtF(R.A,2)} δ <span class="k">· acuité ≈</span> ${R.acuity >= .95 ? '10' : fmt(Math.max(.5, Math.round(R.acuity*20)/2),1)}/10`;
   }
 
-  return { S, M, compute, prescription, renderSteps, resize, frame, main, reset, dirty(){ dirty = true; }, set(o){ Object.assign(S, {auto:true, cyl:0, axe:180, wear:true}, o); renderSteps(); dirty = true; }, canvas: cv };
+  let dragY0 = 0, dragA0 = 0;
+  function drag(x, y, phase){
+    const side = W >= H*1.25, inDiag = side ? x < W*.56 : y < H*.52;
+    if(phase === 'start'){ if(!inDiag) return false; dragY0 = y; dragA0 = M.acc || 0; }
+    const A = Math.floor(amp(S.age)*4)/4;
+    S.auto = false; S.acc = clamp(Math.round((dragA0 + (dragY0 - y)/45)*4)/4, 0, A);
+    if(phase === 'end') renderSteps();
+    dirty = true; return true;
+  }
+  return { drag, hint(){ return 'fais glisser vers le haut ou le bas sur l’œil pour bomber ou relâcher le cristallin'; }, S, M, compute, prescription, renderSteps, resize, frame, main, reset, dirty(){ dirty = true; }, set(o){ Object.assign(S, {auto:true, cyl:0, axe:180, wear:true}, o); renderSteps(); dirty = true; }, canvas: cv };
 })();
 
 /* =========================================================
@@ -2507,7 +2589,7 @@ const OEIL = (() => {
    interférences (fentes de Young, photons un par un) · diffraction · effet photoélectrique
    ========================================================= */
 const OND = (() => {
-  const cv = $('#ond-canvas'), gcv = $('#ond-graph');
+  const cv = $('#ond-canvas'), gcv = $('#ond-graph'), scv = $('#ond-vcanvas');
   const METALS = {
     cesium:{n:'Césium', W:2.1}, potassium:{n:'Potassium', W:2.3}, sodium:{n:'Sodium', W:2.28},
     calcium:{n:'Calcium', W:2.9}, zinc:{n:'Zinc', W:4.3}, cuivre:{n:'Cuivre', W:4.7}
@@ -2589,7 +2671,7 @@ const OND = (() => {
     g.setTransform(cv.width/W,0,0,cv.height/H,0,0);
     g.fillStyle = '#05060d'; g.fillRect(0,0,W,H);
     if(S.mode === 'photo') drawPhoto(dt); else drawWaves(dt);
-    if(gdirty) graph();
+    if(gdirty){ graph(); drawSchema(); }
     texts();
   }
   function drawWaves(dt){
@@ -2727,6 +2809,43 @@ const OND = (() => {
     $('#ond-readout').innerHTML = `<span class="k">λ</span> ${S.plam} nm <span class="k">· photon</span> ${fmtF(E,2)} eV <span class="k">· W</span> ${fmtF(m.W,2)} eV <span class="k">· Ec max</span> ${ok ? fmtF(Ec,2)+' eV' : '— (aucun électron)'} <span class="k">· seuil λ₀</span> ${fmt(M.lam0,0)} nm`;
   }
 
+  /* ---------- Schéma du cours : deux sources S₁ et S₂, crêtes, creux, franges ---------- */
+  function drawSchema(){
+    const box = $('#ond-vbox'); box.hidden = S.mode !== 'young';
+    if(box.hidden || box.classList.contains('mini')) return;
+    const r = hiDPI(scv), q = r.ctx, w = r.W, h = r.H;
+    q.fillStyle = '#05060d'; q.fillRect(0,0,w,h);
+    const lam = S.white ? 14 : 9 + (S.lam - 400)/300*9, d = clamp(S.a*6, 1.6, 5.5)*lam;
+    const x0 = 22, cy = h/2, s1 = [x0, cy - d/2], s2 = [x0, cy + d/2];
+    const col = S.white ? [255,255,255] : waveRGB(S.lam);
+    /* cercles : crêtes en trait plein, creux en pointillés */
+    for(let n=1; n*lam < w*1.2; n++){
+      [s1,s2].forEach(c => {
+        q.strokeStyle = rgbCSS(col,.55); q.lineWidth = 1.1; q.setLineDash([]); q.beginPath(); q.arc(c[0], c[1], n*lam, -Math.PI/2, Math.PI/2); q.stroke();
+        q.strokeStyle = 'rgba(160,159,191,.35)'; q.setLineDash([2,3]); q.beginPath(); q.arc(c[0], c[1], (n-.5)*lam, -Math.PI/2, Math.PI/2); q.stroke();
+      });
+    }
+    q.setLineDash([]);
+    /* lignes où |S₁M − S₂M| = kλ (brillantes) ou (k + ½)λ (sombres) */
+    const hyper = (D, style, lw, dash) => {
+      q.strokeStyle = style; q.lineWidth = lw; q.setLineDash(dash); q.beginPath(); let first = true;
+      for(let r1 = Math.abs(D) + .5; r1 < w*1.6; r1 += 2){
+        const r2 = r1 - D, yy = (r1*r1 - r2*r2)/(2*d), xx2 = r1*r1 - (yy + d/2)**2;
+        if(xx2 < 0) continue; const X = x0 + Math.sqrt(xx2), Y = cy + yy;
+        if(X > w) break; first ? q.moveTo(X,Y) : q.lineTo(X,Y); first = false;
+      }
+      q.stroke(); q.setLineDash([]);
+    };
+    const kmax = Math.floor(d/lam);
+    for(let k=-kmax; k<=kmax; k++){ hyper(k*lam, '#ffd25a', 2, []); }
+    for(let k=-kmax; k<kmax; k++){ hyper((k+.5)*lam, 'rgba(120,130,170,.9)', 1.4, [4,3]); }
+    [[s1,'S₁'],[s2,'S₂']].forEach(([c,n]) => { q.fillStyle = '#fff'; q.beginPath(); q.arc(c[0], c[1], 3.5, 0, 6.283); q.fill(); q.font = '700 11px system-ui'; q.fillStyle = '#fff'; q.textAlign = 'right'; q.textBaseline = 'middle'; q.fillText(n, c[0]-6, c[1]); });
+    q.font = '600 10.5px system-ui'; q.textAlign = 'right'; q.textBaseline = 'alphabetic';
+    q.fillStyle = '#ffd25a'; q.fillText('frange brillante : δ = kλ', w - 6, 14);
+    q.fillStyle = '#a3abd6'; q.fillText('frange sombre : δ = (k + ½)λ', w - 6, 28);
+    $('#ond-vs').innerHTML = `Traits pleins : crêtes ; pointillés : creux. Là où deux crêtes se croisent, les ondes s’ajoutent. δ = S₂M − S₁M est la différence de marche. <i>Schéma, pas à l’échelle.</i>`;
+  }
+
   /* ---------- Graphique du bas ---------- */
   function graph(){
     gdirty = false;
@@ -2833,7 +2952,13 @@ const OND = (() => {
     }
   }
 
-  return { S, M, METALS, renderSteps, renderFrise, resize, frame, main, reset, dirty(){ dirty = gdirty = true; }, set(o){ Object.assign(S, o); hits = []; photons = []; electrons = []; emitted = 0; renderSteps(); dirty = gdirty = true; }, canvas: cv, gcanvas: gcv };
+  function drag(x, y, phase){
+    if(S.mode === 'photo') S.plam = clamp(Math.round((200 + 550*x/W)/5)*5, 200, 750);
+    else { if(S.white && S.mode === 'young') return false; S.lam = clamp(Math.round(400 + 300*x/W), 400, 700); hits = []; }
+    if(phase === 'end') renderSteps();
+    dirty = gdirty = true; return true;
+  }
+  return { drag, hint(){ return S.mode === 'photo' ? 'fais glisser de gauche à droite pour changer la couleur de la lampe, des UV au rouge' : 'fais glisser de gauche à droite pour changer la couleur du laser'; }, S, M, METALS, renderSteps, renderFrise, resize, frame, main, reset, dirty(){ dirty = gdirty = true; }, set(o){ Object.assign(S, o); hits = []; photons = []; electrons = []; emitted = 0; renderSteps(); dirty = gdirty = true; }, canvas: cv, gcanvas: gcv };
 })();
 
 /* =========================================================
@@ -3184,6 +3309,7 @@ function showTab(id){
   TABS.forEach(t => { $('#sim-'+t).hidden = (t !== id); });
   $$('#tabs button').forEach(b => { const on = b.dataset.tab === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
   requestAnimationFrame(resizeAll);
+  showHint(id);
 }
 $$('#tabs button').forEach(b => b.addEventListener('click', () => { const id = b.dataset.tab; if(location.hash.slice(1) === id) showTab(id); else location.hash = id; }));
 window.addEventListener('hashchange', () => { const h = parseHash(); showTab(h.tab); if(h.ex) runExample(state.tab, h.ex); });
@@ -3197,10 +3323,60 @@ function loop(now){
   const dt = Math.min(.05, (now - last)/1000); last = now;
   const m = MOD[state.tab];
   if(m && !m._sized){ m.resize(); m._sized = true; }
-  if(m && !document.hidden){ try{ m.frame(dt); } catch(e){ console.error(e); } }
+  if(m && !document.hidden){ try{ m.frame(state.tab === 'oeil' ? dt : dt*state.speed); } catch(e){ console.error(e); } syncTL(); }
   defT += dt; if(defT > .35){ defT = 0; checkDefis(); }
   requestAnimationFrame(loop);
 }
+
+/* ---------- Vitesse, continu / fixe, frise du temps ---------- */
+function setLoop(v){ state.loop = v; store.set('ao-loop', v); $$('.tb[data-do="loop"]').forEach(b => { b.setAttribute('aria-pressed', v ? 'true' : 'false'); const l = b.querySelector('.lbl'); if(l) l.textContent = v ? 'Continu' : 'Fixe'; }); }
+$$('.tb[data-do="loop"]').forEach(b => b.addEventListener('click', () => { setLoop(!state.loop); const m = MOD[state.tab]; if(state.loop && m && m.main && m.S && !m.S.playing && state.tab !== 'ondes') m.main(); toast(state.loop ? 'Mode continu : la lumière repart en boucle.' : 'Mode fixe : la lumière part une fois, puis tout reste affiché.'); }));
+$$('.speed input').forEach(inp => inp.addEventListener('input', () => { state.speed = +inp.value; $$('.speed input').forEach(o => { o.value = inp.value; }); $$('.spv').forEach(o => { o.textContent = '×' + fmt(state.speed,1); }); }));
+let tlKeysSig = {};
+function syncTL(){
+  const t = state.tab, m = MOD[t]; if(!m || !m.tl) return;
+  const bar = simEl(t).querySelector('.tline'); if(!bar) return;
+  const info = m.tl();
+  bar.classList.toggle('off', !info || !info.max);
+  if(!info || !info.max) return;
+  const inp = bar.querySelector('input');
+  if(document.activeElement !== inp) inp.value = Math.round(info.frac*1000);
+  const sig = info.keys.map(k => Math.round(k/info.max*200)).join(',');
+  if(tlKeysSig[t] !== sig){
+    tlKeysSig[t] = sig;
+    const kb = bar.querySelector('.keys'); kb.innerHTML = '';
+    info.keys.forEach((k, i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = i+1; b.title = `Moment clé ${i+1} : la lumière atteint une surface`; b.style.left = `${k/info.max*100}%`;
+      b.addEventListener('click', () => m.setReveal(k/info.max + .002)); kb.appendChild(b); });
+  }
+}
+['milieux','images'].forEach(t => { const inp = simEl(t).querySelector('.tline input'); inp.addEventListener('input', () => MOD[t].setReveal(+inp.value/1000)); });
+
+/* ---------- Interaction directe sur la scène : glisser pour régler, molette ou pincement pour zoomer ---------- */
+const ZM = {};
+SIMS.forEach(t => {
+  const cv = MOD[t].canvas, z = ZM[t] = {k:1, x:0, y:0};
+  const apply = () => { cv.style.transform = z.k === 1 ? '' : `translate(${z.x}px,${z.y}px) scale(${z.k})`; };
+  const local = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left)/r.width*cv.clientWidth, (e.clientY - r.top)/r.height*cv.clientHeight]; };
+  let dragging = false; const ptr = new Map(); let pin = null;
+  cv.addEventListener('pointerdown', e => {
+    ptr.set(e.pointerId, [e.clientX, e.clientY]);
+    if(ptr.size === 2){ const a = [...ptr.values()]; pin = {d:Math.hypot(a[0][0]-a[1][0], a[0][1]-a[1][1])||1, k:z.k}; dragging = false; return; }
+    const [x,y] = local(e);
+    if(MOD[t].drag && MOD[t].drag(x, y, 'start')){ dragging = true; cv.setPointerCapture(e.pointerId); markModified(t); }
+  });
+  cv.addEventListener('pointermove', e => {
+    if(ptr.has(e.pointerId)) ptr.set(e.pointerId, [e.clientX, e.clientY]);
+    if(pin && ptr.size === 2){ const a = [...ptr.values()]; z.k = clamp(pin.k*Math.hypot(a[0][0]-a[1][0], a[0][1]-a[1][1])/pin.d, 1, 4); if(z.k === 1){ z.x = z.y = 0; } apply(); return; }
+    if(dragging){ const [x,y] = local(e); MOD[t].drag(x, y, 'move'); }
+  });
+  const end = e => { ptr.delete(e.pointerId); if(ptr.size < 2) pin = null; if(dragging){ dragging = false; const [x,y] = local(e); MOD[t].drag(x, y, 'end'); } };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('wheel', e => { e.preventDefault(); const r = cv.parentElement.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+    const k2 = clamp(z.k*(e.deltaY > 0 ? .9 : 1.1), 1, 4); z.x = mx - (mx - z.x)*k2/z.k; z.y = my - (my - z.y)*k2/z.k; z.k = k2; if(z.k === 1){ z.x = z.y = 0; } apply(); }, {passive:false});
+  cv.addEventListener('dblclick', () => { z.k = 1; z.x = z.y = 0; apply(); });
+});
+const hinted = new Set();
+function showHint(t){ const m = MOD[t]; if(!m || !m.hint || hinted.has(t)) return; hinted.add(t); setTimeout(() => { if(state.tab === t) toast('Astuce : ' + m.hint() + '. Molette ou pincement pour zoomer, double-clic pour revenir.', 6000); }, 900); }
 
 /* ---------- Raccourcis clavier ---------- */
 document.addEventListener('keydown', e => {
@@ -3222,7 +3398,7 @@ document.addEventListener('keydown', e => {
 });
 
 /* ---------- Démarrage ---------- */
-setLevel(level); setZoom(zoomV); setLight(state.light);
+setLevel(level); setZoom(zoomV); setLight(state.light); setLoop(state.loop);
 MIL.renderSteps(); IMG.renderSteps(); OEIL.renderSteps(); OND.renderSteps(); OND.renderFrise();
 renderDefis(); renderQuiz();
 { const h = parseHash(); if(h.n) setLevel(+h.n); showTab(h.tab || 'milieux'); if(h.ex) runExample(state.tab, h.ex); else if(!location.hash) runExample('milieux', 'air-eau'); }
