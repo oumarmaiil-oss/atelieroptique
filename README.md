@@ -1,6 +1,6 @@
 # L'Atelier Optique — lumière, lentilles, œil, ondes et photons
 
-**Bêta 3** · sciences physiques, collège · lycée · même ergonomie que [L'Atelier des Forces](https://oumarmaiil-oss.github.io/atelierforces/) et [L'Atelier Cosmique](https://oumarmaiil-oss.github.io/ateliercosmique/)
+**Bêta 4** · sciences physiques, collège · lycée · même ergonomie que [L'Atelier des Forces](https://oumarmaiil-oss.github.io/atelierforces/) et [L'Atelier Cosmique](https://oumarmaiil-oss.github.io/ateliercosmique/)
 
 Laboratoire virtuel interactif d'**optique** : comment la lumière change de direction, comment une lentille, un miroir ou l'œil forment une image, comment on corrige la myopie, l'hypermétropie, la presbytie et l'astigmatisme, et pourquoi la lumière est à la fois une onde et un flux de photons.
 
@@ -16,7 +16,18 @@ Laboratoire virtuel interactif d'**optique** : comment la lumière change de dir
 | **4 · Ondes et photons** | **Fentes de Young** avec le schéma du cours (sources S₁ et S₂, rayons qui se croisent en M sur l'écran, différence de marche δ, franges brillantes et sombres) (laser ou lumière blanche, interfrange mesuré à la règle) et **photons envoyés un par un** qui construisent les franges. **Diffraction** par une fente ou un cheveu, avec un bouton pour ajouter une 2ᵉ fente. **Effet photoélectrique** : six métaux, lampe UV à rouge, intensité ; graphique Ec = hν − W. **Frise historique** : 1 000 ans de débat, d'Ibn al-Haytham à Tonomura. |
 | **Défis** | 23 défis qui se valident tout seuls quand on les réussit soi-même, et 11 questions « Je prédis, puis j'observe » reliées aux simulations. |
 
-## L'ergonomie (reprise des ateliers précédents)
+## Vues 2D et 3D
+
+Chaque scène a d'abord sa vue 2D, celle du schéma du cours (plus légère, idéale pour les téléphones modestes). Le sélecteur **2D | 3D**, au début de la barre de commandes (touche **D**), ajoute une vue en relief quand elle aide à comprendre : on la fait tourner au doigt ou à la souris, on zoome à la molette ou en pinçant, double-clic pour revenir.
+
+| Onglet | Vue 3D |
+|---|---|
+| Lumière et milieux | **Prisme** (le faisceau blanc et l'éventail de couleurs jusqu'à l'écran) · **fibre optique** (le rayon prisonnier du tube) · **arc-en-ciel** (l'observateur, le Soleil dans le dos, le rideau de pluie et le cône de 42° qui dessine l'arc) |
+| Lentilles et miroirs | **Banc d'optique** : rail, lentille, lettre F lumineuse et écran qui montre l'image réellement obtenue ; on attrape la lettre F ou l'écran pour les déplacer |
+| L'œil | L'œil en coupe, le faisceau de rayons, la tache sur la rétine, les deux focales de l'astigmatisme |
+| Ondes et photons | **Fentes de Young** (les deux sources, les rayons S₁M et S₂M, les vraies franges sur l'écran) · **diffraction** par une fente ou un cheveu |
+
+## L'ergonomie (commune aux trois ateliers)
 
 - **Panneau de gauche** : **📚 Exemples** (78 situations toutes prêtes, rangées par notion, avec une ligne « ce que ça illustre » ; badge « modifié » dès qu'on change un réglage) et **⚙ Réglages** en étapes numérotées, avec des sélecteurs et des valeurs bornées au pas défini (pas d'aberration).
 - **Scène** : encart d'explication en haut à gauche (cliquer le titre pour le réduire), légende, encart « ce que l'on voit » (écran, œil, photo, lunette), **barre de commandes** (recommencer, action principale — suivre la lumière, lecture/pause, mettre ou retirer la correction —, valeurs en direct, plein écran).
@@ -24,7 +35,7 @@ Laboratoire virtuel interactif d'**optique** : comment la lumière change de dir
 - **Interaction sur la scène** : on fait glisser directement sur le schéma pour régler l'angle du rayon, déplacer l'objet ou l'écran, faire la mise au point, bomber le cristallin, changer la couleur du laser ; molette ou pincement pour zoomer, double-clic pour revenir.
 - **Bas de l'écran** : explication avec « Pourquoi ? », formules du mode expert, **calculs en direct** (relation de conjugaison, grandissement, vergences), ordonnance, graphiques, frise historique.
 - **Niveaux d'affichage** : **1 · Observer** (rayons, image, récit), **2 · Comprendre** (+ foyers, angles, distances, « Pourquoi ? »), **3 · Expert** (+ mesures algébriques, formules, valeurs, graduations).
-- **Outils** : mode léger, taille des textes (A− A+), raccourcis clavier (Espace, R, ← →, 1 2 3, E, L, P, C, F ; liste avec la touche ?), **image** de la scène (avec l'encart), **lien de partage** (onglet + exemple + niveau), bouton **« Signaler une erreur »** (WhatsApp, message prérempli), sources et simplifications (bouton ⓘ).
+- **Outils** : profil d'affichage choisi selon l'appareil (Complet, Équilibré, Léger), taille des textes (A− A+), raccourcis clavier (Espace, R, ← →, 1 2 3, E, L, P, C, F ; liste avec la touche ?), **image** de la scène (avec l'encart), **lien de partage** (onglet + exemple + niveau), bouton **« Signaler une erreur »** (WhatsApp, message prérempli), bouton **Ateliers** pour passer d'un atelier à l'autre, bouton **ⓘ À propos** (le projet, les sources et simplifications, la licence et les droits, la confidentialité).
 - **Téléphone et tablette** : la scène reste en haut ; Exemples, Réglages et les fiches s'ouvrent dans un volet à onglets.
 
 ## Utilisation

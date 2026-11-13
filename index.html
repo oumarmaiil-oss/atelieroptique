@@ -486,6 +486,21 @@ body.lvl1 .certwhy{display:none!important}
 .info.mini .t::before{content:"ⓘ Explication ▸";font-size:13px;font-weight:700;color:#fde4a0}
 #oeil-3d{border-radius:0}
 .tb[data-do="v3d"][aria-pressed="true"]{background:#0f2e4a;color:#8fd0ff}
+
+/* Sélecteur 2D | 3D, en tête de la barre de commandes (même place dans tous les ateliers) */
+.v3seg{flex:none}
+.v3seg button{min-width:42px;font-weight:800}
+.v3seg button[disabled]{opacity:.35;cursor:not-allowed}
+/* À propos et Ateliers */
+.abox{max-width:min(760px,94vw)}
+.about{display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.55}
+.about h4{margin:0 0 4px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.about p{margin:0 0 6px}
+.atl{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.atc{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:var(--panel-2);color:var(--fg);text-decoration:none}
+.atc b{font-size:14.5px}.atc span{font-size:12.5px;color:#c8c8de}.atc em{font-style:normal;font-size:12px;color:var(--accent);margin-top:auto}
+a.atc:hover{border-color:var(--accent)}
+.atc.here{border-color:var(--accent);background:#2a2208}
 </style>
 </head>
 <body>
@@ -493,25 +508,26 @@ body.lvl1 .certwhy{display:none!important}
 <header class="top" id="top">
   <div class="brand">
     <div class="logo opt" aria-hidden="true"></div>
-    <div style="min-width:0"><span class="bt">L'Atelier Optique<span class="beta">bêta 3</span></span><small>La lumière, les lentilles, l'œil, les ondes et les photons — sciences physiques, collège · lycée</small></div>
+    <div style="min-width:0"><span class="bt">L'Atelier Optique<span class="beta">bêta 4</span></span><small>La lumière, les lentilles, l'œil, les ondes et les photons — sciences physiques, collège · lycée</small></div>
   </div>
   <button class="hbtn" id="btnMenu" aria-expanded="false" aria-controls="hctl" title="Options d'affichage"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
   <div class="hctl" id="hctl">
     <div class="lvl" title="Niveau d'affichage : ce que montrent la scène et les encarts">Niveau
       <div class="seg" id="lvlSeg">
-        <button data-level="1" title="Niveau 1 : les rayons, l'image et le récit, sans calcul">1 · Observer</button>
+        <button data-level="1" title="Niveau 1 : les rayons, l'image et le récit, sans calcul">1 · Découvrir</button>
         <button data-level="2" title="Niveau 2 : ajoute les foyers, les angles, les distances et « Pourquoi ? »">2 · Comprendre</button>
         <button data-level="3" title="Niveau 3 : ajoute les mesures algébriques, les formules et les valeurs calculées en direct">3 · Expert</button>
       </div>
     </div>
-    <button class="hbtn" id="btnLight" title="Mode léger : moins de rayons et d'animations (téléphone modeste)" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span>Léger</span></button>
+    <button class="hbtn" id="btnLight" title="Profil d’affichage, choisi automatiquement selon l’appareil : Complet, Équilibré ou Léger. Cliquer pour changer."><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="12" rx="2"/><path d="M8 21h8M12 15v6"/></svg><span id="profLbl">Équilibré</span></button>
     <button class="hbtn" id="btnZm" title="Réduire les textes">A−</button>
     <button class="hbtn" id="btnZp" title="Agrandir les textes">A+</button>
     <button class="hbtn" id="btnKeys" title="Raccourcis clavier (touche ?)" aria-label="Raccourcis clavier"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></button>
     <button class="hbtn" id="btnShot" title="Enregistrer une image de la scène (touche C)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Image</span></button>
     <button class="hbtn" id="btnShare" title="Partager un lien qui rouvre cet onglet, cet exemple et ce niveau"><svg class="ic" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Lien</span></button>
     <button class="hbtn" id="btnSignal" title="Signaler une erreur par WhatsApp (le message indique l'onglet et l'exemple affichés)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V4h11l1 2h4v9h-7l-1-2H6"/></svg><span>Signaler une erreur</span></button>
-    <button class="hbtn" id="btnAbout" title="Sources et simplifications" aria-label="Sources et simplifications"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg></button>
+    <button class="hbtn" id="btnAteliers" title="Les autres ateliers de la collection"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Ateliers</span></button>
+    <button class="hbtn" id="btnAbout" title="À propos : le projet, les sources, la licence et les droits" aria-label="À propos"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg></button>
     <button class="hbtn" id="btnPanel" title="Masquer / afficher le panneau (touche P)" aria-label="Masquer ou afficher le panneau"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
   </div>
 </header>
@@ -533,9 +549,9 @@ body.lvl1 .certwhy{display:none!important}
     <tr><td><kbd>Espace</kbd></td><td>Action principale : allumer la lumière, lecture / pause</td></tr>
     <tr><td><kbd>R</kbd></td><td>Recommencer depuis le départ</td></tr>
     <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Onglet précédent / suivant</td></tr>
-    <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Niveau : Observer · Comprendre · Expert</td></tr>
+    <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Niveau : Découvrir · Comprendre · Expert</td></tr>
     <tr><td><kbd>E</kbd></td><td>Basculer entre Exemples et Réglages</td></tr>
-    <tr><td><kbd>V</kbd></td><td>Onglet L’œil : vue 2D / vue 3D</td></tr>
+    <tr><td><kbd>D</kbd></td><td>Vue 2D / vue 3D (quand l’expérience l’a)</td></tr>
     <tr><td><kbd>L</kbd></td><td>Réduire / ouvrir les encarts de la scène</td></tr>
     <tr><td><kbd>P</kbd></td><td>Masquer / afficher le panneau</td></tr>
     <tr><td><kbd>C</kbd></td><td>Enregistrer une image de la scène</td></tr>
@@ -543,9 +559,27 @@ body.lvl1 .certwhy{display:none!important}
     <tr><td><kbd>?</kbd></td><td>Afficher cette liste</td></tr>
   </table></div></div>
 
-<div class="dlg" id="about" hidden role="dialog" aria-label="Sources et simplifications"><div class="kbox">
-  <h3>Sources et simplifications <button class="hbtn dclose" aria-label="Fermer">✕</button></h3>
-  <div class="foot" style="border:0;padding:0;font-size:14px" id="aboutBody"></div>
+<div class="dlg" id="about" hidden role="dialog" aria-label="À propos"><div class="kbox abox">
+  <h3>À propos de L’Atelier Optique <button class="hbtn dclose" aria-label="Fermer">✕</button></h3>
+  <div class="about">
+    <section><h4>Le projet</h4>
+      <p><b>L’Atelier Optique</b> fait partie d’une collection de laboratoires virtuels de sciences physiques, gratuits et libres : <b>L’Atelier des Forces</b>, <b>L’Atelier Cosmique</b> et <b>L’Atelier Optique</b>. Ils sont conçus au Sénégal par le <b>Dr Oumar Sow</b>, pharmacien, pour les élèves du collège et du lycée, leurs professeurs et toute personne curieuse.</p>
+      <p>Le principe est le même partout : voir et manipuler ce que le manuel décrit. On part d’un exemple tout prêt, on change les réglages, on observe, puis on passe du récit (niveau Découvrir) aux preuves (Comprendre) et aux formules (Expert). Chaque atelier tient dans un seul fichier, fonctionne sans connexion et se partage par WhatsApp ou clé USB.</p>
+      <p class="note">Les programmes ont été développés avec l’aide de l’intelligence artificielle Claude (Anthropic), puis vérifiés et testés.</p></section>
+    <section><h4>Les autres ateliers</h4><div class="atl" data-atl></div></section>
+    <section><h4>Sources et simplifications</h4><div class="foot" style="border:0;padding:0;font-size:13.5px" id="aboutBody"></div></section>
+    <section><h4>Licence et droits</h4>
+      <p>Code sous <b>licence MIT</b> — © 2026 Dr Oumar Sow : libre de l’utiliser, de le copier, de le modifier et de le partager, en gardant cette mention. Bibliothèque 3D : three.js r128 (licence MIT, © 2010-2021 three.js authors). Toutes les images de cet atelier sont dessinées par le programme.</p></section>
+    <section><h4>Confidentialité</h4>
+      <p>Aucune donnée n’est envoyée : pas de compte, pas de publicité, pas de mesure d’audience. Les défis réussis et tes préférences (niveau, profil, taille des textes) restent sur ton appareil.</p></section>
+    <section><h4>Une erreur, une idée ?</h4>
+      <p>Le bouton « Signaler une erreur » ouvre WhatsApp avec un message qui indique l’onglet et l’exemple affichés. Code source : <a href="https://github.com/oumarmaiil-oss/atelieroptique" target="_blank" rel="noopener">github.com/oumarmaiil-oss/atelieroptique</a>.</p>
+      <p class="note">Version : bêta 4 · novembre 2026.</p></section>
+  </div>
+</div></div>
+<div class="dlg" id="ateliers" hidden role="dialog" aria-label="Les ateliers"><div class="kbox">
+  <h3>Les ateliers de la collection <button class="hbtn dclose" aria-label="Fermer">✕</button></h3>
+  <div class="atl" data-atl></div>
 </div></div>
 
 <main>
@@ -574,6 +608,7 @@ body.lvl1 .certwhy{display:none!important}
         <div class="vbox" id="mil-vbox" hidden><div class="vt" id="mil-vt">Ce que voit l'observateur</div><canvas id="mil-vcanvas"></canvas><div class="vs" id="mil-vs"></div></div>
       </div>
       <div class="transport">
+        <div class="seg v3seg" title="Vue 2D (le schéma du cours) ou vue 3D (pour tourner autour) — touche D"><button type="button" data-v="2" class="on">2D</button><button type="button" data-v="3">3D</button></div>
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="mil-main" title="Action principale (barre d'espace)"></button>
         <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
@@ -617,6 +652,7 @@ body.lvl1 .certwhy{display:none!important}
         <div class="vbox" id="img-vbox"><div class="vt" id="img-vt">Sur l'écran</div><canvas id="img-vcanvas"></canvas><div class="vs" id="img-vs"></div></div>
       </div>
       <div class="transport">
+        <div class="seg v3seg" title="Vue 2D (le schéma du cours) ou vue 3D (pour tourner autour) — touche D"><button type="button" data-v="2" class="on">2D</button><button type="button" data-v="3">3D</button></div>
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="img-main" title="Action principale (barre d'espace)"></button>
         <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
@@ -659,9 +695,9 @@ body.lvl1 .certwhy{display:none!important}
         <div class="ov ovleg mini"><div class="ib"><div class="lt">Légende</div><div class="lb" id="oeil-leg"></div></div></div>
       </div>
       <div class="transport">
+        <div class="seg v3seg" title="Vue 2D (le schéma du cours) ou vue 3D (pour tourner autour) — touche D"><button type="button" data-v="2" class="on">2D</button><button type="button" data-v="3">3D</button></div>
         <button class="tb" data-do="reset" title="Revenir à l'œil normal (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="oeil-main" title="Action principale (barre d'espace)"></button>
-        <button class="tb" data-do="v3d" id="oeil-3dbtn" title="Basculer entre le schéma 2D et l’œil en 3D (touche V)" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg><span class="lbl">Vue 3D</span></button>
         <span class="readout" id="oeil-readout"></span>
         <button class="tb fsBtn" data-do="fs" title="Scène en plein écran (F ; Échap pour revenir)" aria-label="Plein écran"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
@@ -701,6 +737,7 @@ body.lvl1 .certwhy{display:none!important}
         <div class="vbox left" id="ond-vbox" hidden><div class="vt">Schéma du cours : S₁, S₂ et le point M</div><canvas id="ond-vcanvas"></canvas><div class="vs" id="ond-vs"></div></div>
       </div>
       <div class="transport">
+        <div class="seg v3seg" title="Vue 2D (le schéma du cours) ou vue 3D (pour tourner autour) — touche D"><button type="button" data-v="2" class="on">2D</button><button type="button" data-v="3">3D</button></div>
         <button class="tb" data-do="reset" title="Revenir au départ (R)" aria-label="Recommencer"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
         <button class="tb primary" data-do="main" id="ond-main" title="Action principale (barre d'espace)"></button>
         <button class="tb" data-do="loop" title="Fixe : la lumière part une fois. Continu : elle repart en boucle." aria-pressed="false"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M3 11V9a4 4 0 0 1 4-4h13"/><path d="M7 22l-3-3 3-3"/><path d="M21 13v2a4 4 0 0 1-4 4H4"/></svg><span class="lbl lbl2">Fixe</span></button>
@@ -1831,14 +1868,21 @@ const ICON = {
   glasses:'<svg class="ic" viewBox="0 0 24 24"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 14 2 9M21 14l1-5"/></svg>',
   sun:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>'
 };
-const state = { tab:'milieux', demo:false, light: store.get('ao-light', false), exOn:{}, speed:1, loop: store.get('ao-loop', false) };
+/* Profil d'affichage, choisi automatiquement selon l'appareil (comme l'Atelier Cosmique) */
+const PROFILE0 = (() => { const s = store.get('ao-profile', null); if(s==='complet'||s==='equilibre'||s==='leger') return s; if(store.get('ao-light', false)) return 'leger';
+  const mem = navigator.deviceMemory || 0, cores = navigator.hardwareConcurrency || 0, sw = Math.min(screen.width, screen.height), sl = Math.max(screen.width, screen.height), coarse = matchMedia('(pointer:coarse)').matches;
+  let gl = true; try{ const c = document.createElement('canvas'); gl = !!(c.getContext('webgl') || c.getContext('experimental-webgl')); }catch(e){ gl = false; }
+  if(!gl || (mem && mem <= 2) || (cores && cores <= 2) || (coarse && sw < 600 && (!mem || mem < 4))) return 'leger';
+  if(!coarse && sl >= 1280 && (mem >= 8 || (!mem && cores >= 8))) return 'complet';
+  return 'equilibre'; })();
+const state = { tab:'milieux', demo:false, profile: PROFILE0, light: PROFILE0 === 'leger', exOn:{}, speed:1, loop: store.get('ao-loop', false) };
 /* Frise du temps : longueur totale du trajet et moments clés, collectés pendant le dessin */
 const TLC = { max:0, keys:[] };
 function tlReset(){ TLC.max = 0; TLC.keys = []; }
 function tlInfo(){ const k = TLC.keys.sort((a,b)=>a-b), out = []; k.forEach(v => { if(v > 8 && v < TLC.max - 8 && !out.some(o => Math.abs(o - v) < Math.max(14, TLC.max*.04))) out.push(v); }); return {max:TLC.max, keys:out.slice(0,6)}; }
 
 function hiDPI(cv){
-  const d = state.light ? 1 : Math.min(2, window.devicePixelRatio||1);
+  const d = state.light ? 1 : state.profile === 'complet' ? Math.min(2, window.devicePixelRatio||1) : Math.min(1.5, window.devicePixelRatio||1);
   const W = Math.max(1, cv.clientWidth), H = Math.max(1, cv.clientHeight);
   if(cv.width !== Math.round(W*d) || cv.height !== Math.round(H*d)){ cv.width = Math.round(W*d); cv.height = Math.round(H*d); }
   const ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
@@ -2136,6 +2180,99 @@ const DR = {
 let level = +store.get('ao-level', 2) || 2;
 
 /* =========================================================
+   MOTEUR 3D COMMUN (three.js r128 intégré) : une scène par onglet
+   Même prise en main partout : glisser pour tourner, molette ou pincement pour zoomer,
+   clic droit ou deux doigts pour déplacer, double-clic pour revenir.
+   ========================================================= */
+function make3D(viewEl, opt = {}){
+  const V = { ok:null, need:true, sig:'', visible:false, drags:[] };
+  const LS = opt.labelScale || 1;
+  V.init = () => {
+    if(V.ok !== null) return V.ok;
+    try{
+      if(typeof THREE === 'undefined') throw new Error('three.js absent');
+      const cv = V.cv = document.createElement('canvas');
+      cv.className = 'cv3d'; cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:1;touch-action:none;display:none';
+      cv.setAttribute('aria-label', 'Vue 3D : glisser pour tourner, molette pour zoomer, double-clic pour revenir');
+      viewEl.appendChild(cv);
+      V.renderer = new THREE.WebGLRenderer({canvas:cv, antialias: state.profile !== 'leger', preserveDrawingBuffer:true});
+      V.renderer.setClearColor(0x05060d, 1);
+      V.scene = new THREE.Scene();
+      V.camera = new THREE.PerspectiveCamera(opt.fov || 40, 1, opt.near || .1, opt.far || 2000);
+      V.scene.add(new THREE.AmbientLight(0xffffff, .6));
+      const dl = new THREE.DirectionalLight(0xffffff, .75); dl.position.set(-30, 50, 60); V.scene.add(dl);
+      V.controls = new THREE.OrbitControls(V.camera, cv);
+      V.controls.enableDamping = true; V.controls.dampingFactor = .12;
+      V.controls.addEventListener('change', () => { V.need = true; });
+      V.root = new THREE.Group(); V.scene.add(V.root);
+      cv.addEventListener('dblclick', () => V.resetCam());
+      /* objets déplaçables : on attrape, on fait glisser le long de l'axe optique (x) */
+      const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+      let grab = null;
+      const toNdc = e => { const r = cv.getBoundingClientRect(); ndc.set((e.clientX - r.left)/r.width*2 - 1, -(e.clientY - r.top)/r.height*2 + 1); ray.setFromCamera(ndc, V.camera); };
+      V.planeX = e => { toNdc(e); const d = new THREE.Vector3(); V.camera.getWorldDirection(d); const n = new THREE.Vector3(0, d.y, d.z); if(n.lengthSq() < 1e-6) n.set(0,0,1); n.normalize(); const p = new THREE.Vector3(); return ray.ray.intersectPlane(new THREE.Plane(n, 0), p) ? p : null; };
+      cv.addEventListener('pointerdown', e => {
+        if(!V.drags.length || e.button !== 0) return;
+        toNdc(e);
+        const hits = ray.intersectObjects(V.drags.map(d => d.obj), true);
+        if(!hits.length) return;
+        let o = hits[0].object; while(o && !V.drags.find(d => d.obj === o)) o = o.parent;
+        grab = V.drags.find(d => d.obj === o); if(!grab) return;
+        V.controls.enabled = false; cv.setPointerCapture(e.pointerId); e.stopPropagation();
+      }, true);
+      cv.addEventListener('pointermove', e => { if(!grab) return; const p = V.planeX(e); if(p) grab.move(p, 'move'); });
+      const end = e => { if(!grab) return; const p = V.planeX(e); if(p) grab.move(p, 'end'); grab = null; V.controls.enabled = true; };
+      cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+      V.ok = true;
+    } catch(e){ console.warn(e); V.ok = false; }
+    return V.ok;
+  };
+  V.available = () => V.init();
+  V.size = () => {
+    if(!V.ok || !V.visible) return;
+    const W = Math.max(1, viewEl.clientWidth), H = Math.max(1, viewEl.clientHeight);
+    const d = state.profile === 'leger' ? 1 : state.profile === 'complet' ? Math.min(2, devicePixelRatio || 1) : Math.min(1.5, devicePixelRatio || 1);
+    V.renderer.setPixelRatio(d); V.renderer.setSize(W, H, false);
+    V.camera.aspect = W/H; V.camera.updateProjectionMatrix(); V.need = true;
+  };
+  V.show = on => {
+    if(!on && V.ok === null) return false;
+    if(!V.init()) return false;
+    if(V.visible !== on){ V.visible = on; V.cv.style.display = on ? 'block' : 'none'; if(on) V.size(); }
+    return true;
+  };
+  V.setCam = (pos, target) => { V.cam0 = [pos, target]; if(!V.camSet){ V.camSet = true; V.resetCam(); } };
+  V.resetCam = () => { if(!V.cam0) return; V.camera.position.set(...V.cam0[0]); V.controls.target.set(...V.cam0[1]); V.controls.update(); V.need = true; };
+  V.clear = () => { V.drags = []; while(V.root.children.length){ const o = V.root.children.pop(); o.traverse(c => { if(c.geometry) c.geometry.dispose(); if(c.material){ (Array.isArray(c.material) ? c.material : [c.material]).forEach(m => { if(m.map) m.map.dispose(); m.dispose(); }); } }); } };
+  V.rebuild = (sig, fn) => { if(sig === V.sig) return; V.sig = sig; V.clear(); try{ fn(V); } catch(e){ console.error(e); } V.need = true; };
+  V.tick = () => { if(!V.ok || !V.visible) return; V.controls.update(); if(V.need){ V.renderer.render(V.scene, V.camera); V.need = false; } };
+  V.mat = (color, opacity = 1, extra = {}) => new THREE.MeshPhongMaterial(Object.assign({color, transparent: opacity < 1, opacity, side: THREE.DoubleSide, depthWrite: opacity >= 1, shininess: 50}, extra));
+  V.add = (geo, mat, pos = [0,0,0], rot = null) => { const m = new THREE.Mesh(geo, mat); m.position.set(...pos); if(rot) m.rotation.set(...rot); V.root.add(m); return m; };
+  V.line = (pts, color, opacity = 1, dashed = false, ds = 1) => {
+    const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(...p)));
+    const m = dashed ? new THREE.LineDashedMaterial({color, dashSize: .8*ds, gapSize: .6*ds, transparent: true, opacity}) : new THREE.LineBasicMaterial({color, transparent: opacity < 1, opacity});
+    const l = new THREE.Line(g, m); if(dashed) l.computeLineDistances(); V.root.add(l); return l;
+  };
+  V.label = (txt, col, x, y, z, size = 1) => {
+    const c = document.createElement('canvas'), q = c.getContext('2d'), f = 44;
+    q.font = `700 ${f}px system-ui,sans-serif`; const w = Math.ceil(q.measureText(txt).width) + 24;
+    c.width = w; c.height = f + 20; q.font = `700 ${f}px system-ui,sans-serif`; q.textBaseline = 'middle';
+    q.lineWidth = 8; q.strokeStyle = 'rgba(5,6,13,.9)'; q.strokeText(txt, 12, c.height/2); q.fillStyle = col; q.fillText(txt, 12, c.height/2);
+    const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter;
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({map: t, depthTest: false, transparent: true}));
+    const h = 2.2*size*LS; s.scale.set(h*w/c.height, h, 1); s.position.set(x, y, z); s.renderOrder = 10; V.root.add(s); return s;
+  };
+  V.canvasTex = cnv => { const t = new THREE.CanvasTexture(cnv); t.minFilter = THREE.LinearFilter; return t; };
+  return V;
+}
+/* état du sélecteur 2D | 3D d'un onglet */
+function setSeg3d(sim, on, can, why){
+  const seg = sim.querySelector('.v3seg'); if(!seg) return;
+  seg.querySelectorAll('button').forEach(b => { b.classList.toggle('on', (b.dataset.v === '3') === on); });
+  const b3 = seg.querySelector('button[data-v="3"]'); b3.disabled = !can; b3.title = can ? 'Vue en 3D : fais tourner la scène' : (why || 'Pas de vue 3D pour cette expérience');
+}
+
+/* =========================================================
    ONGLET 1 · LUMIÈRE ET MILIEUX
    réfraction et réflexion · prisme · fibre optique · profondeur apparente · couleurs du ciel
    ========================================================= */
@@ -2149,7 +2286,7 @@ const MIL = (() => {
     liq:'eau', h:2.0, alpha:60,
     elev:35, dust:false, sea:true,
     rb:.86, rbMany:false, rbX:true,
-    reveal:Infinity, playing:false, dayT:0
+    reveal:Infinity, playing:false, dayT:0, v3d:false
   };
   const M = {}; /* dernières mesures (pour les défis et les calculs) */
   let W=1, H=1, g=null, dirty = true;
@@ -2212,7 +2349,7 @@ const MIL = (() => {
         UI.toggle('Dispersion exagérée (pour bien voir les couleurs)', S.rbX, v => { S.rbX = v; dirty = true; }),
         UI.note('Au niveau 3 · Expert, la goutte montre toujours les angles réels.')));
     }
-    updMain(); legend(); dirty = true;
+    updMain(); legend(); upd3d(); dirty = true;
   }
 
   /* ---------- Animation « suivre la lumière » ---------- */
@@ -2248,7 +2385,7 @@ const MIL = (() => {
   }
 
   /* ---------- Dessin ---------- */
-  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = true; }
+  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = true; V3.size(); }
   function frame(dt){
     let anim = false;
     if(S.playing){
@@ -2263,8 +2400,106 @@ const MIL = (() => {
     ({dioptre:drawDioptre, prisme:drawPrisme, fibre:drawFibre, profondeur:drawProf, ciel:drawCiel, arcenciel:drawArc})[S.mode]();
     texts();
     if(S.mode !== 'ciel') TL = tlInfo();
+    sync3d();
   }
   let TL = {max:0, keys:[]};
+  /* ---------- Vue 3D : prisme, fibre optique, arc-en-ciel ---------- */
+  const V3 = make3D($('#mil-stage .view'), {labelScale:1, fov:40});
+  const has3d = () => ['prisme','fibre','arcenciel'].includes(S.mode);
+  function upd3d(){ setSeg3d($('#sim-milieux'), S.v3d && has3d(), has3d(), 'La 3D existe pour le prisme, la fibre optique et l’arc-en-ciel'); }
+  function set3d(v){
+    S.v3d = v;
+    if(v && !has3d()) toast('La vue 3D existe pour le prisme, la fibre optique et l’arc-en-ciel.');
+    else if(v && !V3.available()){ S.v3d = false; toast('La 3D n’est pas disponible sur cet appareil (WebGL désactivé).'); }
+    else if(v) toast('Vue 3D : glisse pour tourner, molette ou pincement pour zoomer, double-clic pour revenir.', 5000);
+    upd3d(); dirty = true;
+  }
+  function sync3d(){
+    const on = S.v3d && has3d();
+    if(!V3.show(on) || !on) return;
+    const cams = {prisme:[[-9, 11, 34],[2, 0, 0]], fibre:[[-10, 26, 86],[0, 2, 0]], arcenciel:[[-26, 16, 40],[14, 7, 0]]};
+    if(V3.mode !== S.mode){ V3.mode = S.mode; V3.camSet = false; }
+    V3.setCam(...cams[S.mode]);
+    V3.rebuild(JSON.stringify([S.mode, S.pmat, S.A, S.pi, S.white, S.plam, S.fth, S.fbend, S.fgaine, S.rb, S.rbMany, S.rbX, level, state.profile, W, H]), build3d);
+  }
+  function addLine(V, pts, color, op, additive){
+    const l = V.line(pts, color, op); if(additive){ l.material.blending = THREE.AdditiveBlending; l.material.transparent = true; l.material.depthWrite = false; } return l;
+  }
+  function build3d(V){
+    if(S.mode === 'prisme'){
+      const P = M.p3; if(!P) return;
+      const m = (x, y, z = 0) => [(x - P.cx)/P.k, -(y - P.cy)/P.k, z];
+      const sh = new THREE.Shape(); P.tri.forEach((q, i) => { const [x, y] = m(...q); i ? sh.lineTo(x, y) : sh.moveTo(x, y); });
+      const geo = new THREE.ExtrudeGeometry(sh, {depth: 7, bevelEnabled: false}); geo.translate(0, 0, -3.5);
+      V.add(geo, V.mat(0xbfe6ff, .22, {shininess: 140}));
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color: 0xc8e6ff, transparent: true, opacity: .7})); V.root.add(edges);
+      /* écran */
+      const [sxw] = m(P.ex, 0); V.add(new THREE.PlaneGeometry(9, 16), V.mat(0xd9d6c8, .9), [sxw + .1, 0, 0], [0, -Math.PI/2, 0]);
+      /* faisceau : chaque couleur dessinée en ruban (trois traits) */
+      const zs = state.profile === 'leger' ? [0] : [-.5, 0, .5];
+      if(S.white) zs.forEach(z => addLine(V, [m(...P.src, z), m(...P.E, z)], 0xffffff, .9, true));
+      P.segs.forEach(([l, segs]) => { const [r, gg, b] = waveRGB(l), col = (r << 16) | (gg << 8) | b;
+        segs.forEach(sg => { if(S.white && sg.d0 < 1) return; if(sg.I < .05) return; zs.forEach(z => addLine(V, [m(sg.x1, sg.y1, z), m(sg.x2, sg.y2, z)], col, Math.min(1, sg.I*(S.white ? .8 : 1)), true)); });
+        segs.forEach(sg => { if(sg.gen === 0 && sg.x2 >= P.ex - 1 && sg.I > .2){ const [x, y] = m(sg.x2, sg.y2); V.add(new THREE.PlaneGeometry(1.2, S.white ? .45 : .3), new THREE.MeshBasicMaterial({color: col, side: THREE.DoubleSide}), [x - .05, y, 0], [0, -Math.PI/2, 0]); } }); });
+      const [lx, ly] = m(...P.src); V.add(new THREE.BoxGeometry(2.4, .9, .9), V.mat(0x2b2f55), [lx - 1.2, ly, 0]);
+      if(level >= 2){ const [ax, ay] = m(...P.tri[0]); V.label(`prisme en ${MEDIA[S.pmat].name.toLowerCase()}`, '#c8e6ff', ax, ay + 1.4, 0, .75); V.label('écran', '#d9d6c8', sxw, 8.8, 0, .75); V.label(S.white ? 'lumière blanche' : `laser ${S.plam} nm`, '#ffffff', lx + 2, ly + 1.2, 0, .7); }
+    } else if(S.mode === 'fibre'){
+      const F3 = M.f3; if(!F3) return;
+      const m = (x, y, z = 0) => [(x - F3.cx)/F3.k, -(y - F3.cy)/F3.k, z];
+      const curve = new THREE.CatmullRomCurve3(F3.F.pts.filter((_, i) => i % 3 === 0 || i === F3.F.pts.length - 1).map(q => new THREE.Vector3(...m(...q))));
+      const seg = Math.min(400, F3.F.pts.length*3);
+      V.add(new THREE.TubeGeometry(curve, seg, F3.F.wC/2/F3.k, 24, false), V.mat(0x3fae96, .28, {shininess: 120}));
+      if(S.fgaine) V.add(new THREE.TubeGeometry(curve, seg, F3.F.wG/2/F3.k, 24, false), V.mat(0x3a6fa8, .12));
+      F3.segs.forEach(sg => { if(sg.I < .1) return; addLine(V, [m(sg.x1, sg.y1), m(sg.x2, sg.y2)], 0x3dff4a, Math.min(1, sg.I), true); });
+      const [lx, ly] = m(...F3.src); V.add(new THREE.BoxGeometry(2.4, .9, .9), V.mat(0x2b2f55), [lx - 1.2, ly, 0]);
+      if(level >= 2){ const [x0, y0] = m(F3.F.x0, F3.F.yc); V.label(S.fgaine ? 'cœur n = 1,50 · gaine n = 1,46' : 'verre n = 1,50 dans l’air', '#9be7c9', x0 + 6, y0 + 3, 0, .7); V.label(M.guided ? 'lumière guidée' : 'fuite !', M.guided ? '#4fd18b' : '#ff6b6b', ...m(...F3.F.end), .8); }
+    } else if(S.mode === 'arcenciel'){
+      /* l'observateur, le Soleil dans le dos, un rideau de pluie devant : chaque goutte vue à 42° envoie du rouge */
+      const el = 18*D2R, eye = new THREE.Vector3(0, 1.6, 0), anti = new THREE.Vector3(Math.cos(el), -Math.sin(el), 0).normalize();
+      V.add(new THREE.CircleGeometry(70, 48), V.mat(0x23401f), [10, 0, 0], [-Math.PI/2, 0, 0]);
+      V.add(new THREE.CylinderGeometry(.25, .3, 1.3, 12), V.mat(0x222222), [0, .65, 0]); V.add(new THREE.SphereGeometry(.28, 12, 10), V.mat(0x222222), [0, 1.6, 0]);
+      const sun = eye.clone().addScaledVector(anti, -60);
+      V.add(new THREE.SphereGeometry(2.4, 20, 14), new THREE.MeshBasicMaterial({color: 0xfff1a8}), [sun.x, sun.y, sun.z]);
+      /* angles (réels ou exagérés comme dans la goutte) */
+      const EX = S.rbX && level < 3, base = rbMax(560).th*R2D;
+      const lamL = []; for(let l = 400; l <= 700; l += 15) lamL.push([l, base + (rbMax(l).th*R2D - base)*(EX ? 4 : 1)]);
+      const XC = 30, N = state.profile === 'leger' ? 2200 : state.profile === 'complet' ? 9000 : 5000, band = EX ? .9 : .35;
+      const pos = new Float32Array(N*3), col = new Float32Array(N*3);
+      let sd = 11; const rnd = () => (sd = (sd*16807) % 2147483647)/2147483647;
+      for(let i=0;i<N;i++){
+        const p = new THREE.Vector3(XC + rnd()*6, rnd()*26, (rnd()*2 - 1)*38);
+        const v = p.clone().sub(eye).normalize(), th = Math.acos(clamp(v.dot(anti), -1, 1))*R2D;
+        let c = [.35, .4, .5], best = band;
+        lamL.forEach(([l, t]) => { const d = Math.abs(th - t); if(d < best){ best = d; const w = waveRGB(l); c = [w[0]/255, w[1]/255, w[2]/255]; } });
+        pos.set([p.x, p.y, p.z], i*3); col.set(c, i*3);
+      }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      V.root.add(new THREE.Points(g, new THREE.PointsMaterial({size: .32, vertexColors: true})));
+      /* axe antisolaire et cônes rouge et violet */
+      const hitX = v => eye.clone().addScaledVector(v, (XC - eye.x)/v.x);
+      V.line([[eye.x, eye.y, eye.z], [sun.x, sun.y, sun.z]], 0xfff1a8, .35, true, 2);
+      const A0 = hitX(anti); V.line([[eye.x, eye.y, eye.z], [A0.x, A0.y, A0.z]], 0xc9c9e0, .7, true, 2);
+      const up = new THREE.Vector3(0, 1, 0), u = new THREE.Vector3().crossVectors(anti, up).normalize(), w2 = new THREE.Vector3().crossVectors(u, anti).normalize();
+      [[lamL[lamL.length - 1][1], 0xff4040], [lamL[0][1], 0x9a6bff]].forEach(([t, c]) => {
+        const ring = [];
+        for(let k=0;k<=72;k++){ const a = 2*Math.PI*k/72, v = anti.clone().multiplyScalar(Math.cos(t*D2R)).addScaledVector(u, Math.sin(t*D2R)*Math.cos(a)).addScaledVector(w2, Math.sin(t*D2R)*Math.sin(a)).normalize(); const h = hitX(v); ring.push([h.x, h.y, h.z]);
+          if(k % 9 === 0 && h.y > 0) V.line([[eye.x, eye.y, eye.z], [h.x, h.y, h.z]], c, .22); }
+        V.line(ring.filter(q => q[1] > -2), c, .9);
+      });
+      /* une goutte rouge : rayon du Soleil qui entre, rayon rouge qui ressort vers l'œil */
+      const tR = lamL[lamL.length - 1][1]*D2R, vR = anti.clone().multiplyScalar(Math.cos(tR)).addScaledVector(w2, Math.sin(tR)).normalize(), D1 = hitX(vR);
+      V.add(new THREE.SphereGeometry(.7, 16, 12), V.mat(0x9fd0ff, .6), [D1.x, D1.y, D1.z]);
+      V.line([[D1.x - anti.x*30, D1.y - anti.y*30, D1.z], [D1.x, D1.y, D1.z]], 0xffffff, .8);
+      V.line([[D1.x, D1.y, D1.z], [eye.x, eye.y, eye.z]], 0xff4040, 1);
+      if(level >= 1){
+        V.label('toi', '#ffffff', 0, 3.2, 0, 1.2); V.label('Soleil (dans ton dos)', '#fff1a8', sun.x, sun.y + 4, sun.z, 1.4);
+        V.label('rideau de pluie', '#a0c8ff', XC + 3, 28, -30, 1.3);
+        V.label(`${fmt(lamL[lamL.length - 1][1], 0)}° : rouge`, '#ff8f8f', D1.x, D1.y + 2.5, D1.z, 1.2);
+        if(level >= 2){ V.label('point antisolaire (ombre de ta tête)', '#c9c9e0', A0.x, A0.y + 2, A0.z, 1.1); V.label(`${fmt(lamL[0][1], 0)}° : violet`, '#c4a6ff', XC, 4, 26, 1.1); }
+        if(EX) V.label('angles exagérés (réels au niveau Expert)', '#f4c35a', XC, 31, 10, 1.1);
+      }
+    }
+  }
   function setReveal(f){ S.reveal = f >= .999 ? Infinity : f*TL.max; S.playing = false; updMain(); dirty = true; }
   function tl(){ return S.mode === 'ciel' ? null : {max:TL.max, keys:TL.keys, frac: isFinite(S.reveal) ? clamp(S.reveal/Math.max(1,TL.max),0,1) : 1}; }
   /* Glisser sur la scène pour régler directement */
@@ -2373,8 +2608,10 @@ const MIL = (() => {
       drawSegs(g, segIn, a => `rgba(255,255,255,${a})`, S.reveal, 2.6);
     }
     let hitsScreen = [], tirAny = false, firstExit = null;
+    const p3 = [];
     lams.forEach(l => {
       const T = trace(scene, sx, sy, d[0], d[1], l, {minI:.06, maxSeg:12, maxDepth:6});
+      p3.push([l, T.segs]);
       const k = S.white ? .55 : 1;
       const segs = S.white ? T.segs.filter(s => s.d0 > 1) : T.segs;
       drawSegs(g, segs, a => waveCSS(l, a*k), S.reveal, S.white ? 1.8 : 2.4, !S.white);
@@ -2382,6 +2619,7 @@ const MIL = (() => {
       T.segs.forEach(s => { if(s.gen===0 && s.x2 >= ex-1 && s.I > .2) hitsScreen.push([s.y2, l, s.I]); });
       if(T.hits.some(h => h.tir && h.gen === 0)) tirAny = true;
       if(l === lams[Math.floor(lams.length/2)]) firstExit = T;
+      M.p3 = {segs:p3, tri:[P.apex, P.br, P.bl], ex, E, src:[sx, sy], k: Math.min(W*.4, H*.66)/12, cx: W*.46, cy: H*.55};
     });
     g.globalCompositeOperation = 'source-over';
     DR.laser(g, sx, sy, Math.atan2(d[1], d[0]), S.white ? '#fff' : waveCSS(S.plam,1));
@@ -2436,7 +2674,7 @@ const MIL = (() => {
       }
       return up.concat(dn.reverse());
     };
-    return {x0, x1:pts[N][0], yc, core: off(wC), clad: off(wG), wC, end: pts[N], Rb, half};
+    return {x0, x1:pts[N][0], yc, core: off(wC), clad: off(wG), wC, wG, end: pts[N], Rb, half, pts};
   }
   function drawFibre(){
     const F = fibreGeo();
@@ -2451,6 +2689,7 @@ const MIL = (() => {
     const th = S.fth*D2R, E = [F.x0, F.yc];
     const sx = E[0] - Math.cos(th)*F.x0*.85, sy = E[1] - Math.sin(th)*F.x0*.85;
     const T = trace(scene, sx, sy, Math.cos(th), Math.sin(th), 532, {minI:.12, maxSeg:260, maxDepth:120});
+    M.f3 = {F, segs:T.segs, src:[sx, sy], k: H/40, cx: W/2, cy: H/2};
     const col = a => `rgba(61,255,74,${a})`;
     DR.laser(g, sx, sy, th, col(1));
     g.globalCompositeOperation = 'lighter';
@@ -2814,7 +3053,7 @@ const MIL = (() => {
     }
   }
 
-  return { S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.mode]; }, dirty(){ dirty = true; }, set(o){ Object.assign(S, o); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = true; }, canvas: cv };
+  return { set3d, tick3d: () => V3.tick(), S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.mode]; }, dirty(){ dirty = true; }, set(o){ Object.assign(S, o); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = true; }, canvas: cv };
 })();
 
 /* =========================================================
@@ -2832,7 +3071,7 @@ const IMG = (() => {
     lf:5, lOA:-4,
     pf:50, pD:2, pd:51.3, pAuto:true, pN:2.8,
     f1:80, f2:4, dz:0,
-    reveal:Infinity, playing:false
+    reveal:Infinity, playing:false, v3d:false
   };
   const M = {};
   let W=1, H=1, g=null, dirty = true, vdirty = true;
@@ -2891,7 +3130,7 @@ const IMG = (() => {
       box.appendChild(UI.step(3, 'Le réglage', 'Une lunette bien réglée est « afocale » : le foyer image de l’objectif est confondu avec le foyer objet de l’oculaire.',
         UI.num({label:'Décalage de l’oculaire', min:-1, max:1, step:.1, value:S.dz, show:v=>`${v>0?'+':''}${fmtF(v,1)} cm`, on:v=>{ S.dz=v; vdirty=dirty=true; }, help:'0 = réglage afocal (image à l’infini, vue sans fatigue).'})));
     }
-    updMain(); legend(); vdirty = dirty = true;
+    updMain(); legend(); upd3d(); vdirty = dirty = true;
   }
   function autoFocus(){ const D = S.pD*1000; S.pd = isFinite(D) ? 1/(1/S.pf - 1/D) : S.pf; }
 
@@ -2921,7 +3160,7 @@ const IMG = (() => {
   }
   const PX = x => ox + x*sx, PY = y => oy - y*sy;
 
-  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = vdirty = true; }
+  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = vdirty = true; V3.size(); }
   function frame(dt){
     let anim = false;
     if(S.playing){ S.reveal += dt*Math.max(W,H)*.32; if(S.reveal > (TL.max || 3.2*Math.max(W,H)) + 30){ if(state.loop) S.reveal = 0; else { S.reveal = Infinity; S.playing = false; updMain(); } } anim = true; }
@@ -2934,8 +3173,91 @@ const IMG = (() => {
     if(vdirty){ vdirty = false; drawInset(); }
     texts();
     TL = tlInfo();
+    sync3d();
   }
   let TL = {max:0, keys:[]};
+  /* ---------- Vue 3D : le banc d'optique ---------- */
+  const V3 = make3D($('#img-stage .view'), {labelScale:1.5, fov:38});
+  const has3d = () => S.inst === 'lentille';
+  function upd3d(){ setSeg3d($('#sim-images'), S.v3d && has3d(), has3d(), 'La 3D est prévue pour le banc d’optique (lentille mince)'); }
+  function set3d(v){
+    S.v3d = v;
+    if(v && !has3d()) toast('La vue 3D existe pour le banc d’optique : choisis « Lentille mince » à l’étape 1.');
+    else if(v && !V3.available()){ S.v3d = false; toast('La 3D n’est pas disponible sur cet appareil (WebGL désactivé).'); }
+    else if(v) toast('Vue 3D : fais tourner le banc ; attrape la lettre F ou l’écran pour les déplacer. Double-clic pour revenir.', 6000);
+    $('#img-vbox').classList.toggle('mini', !!(S.v3d && has3d()));
+    upd3d(); dirty = vdirty = true; requestAnimationFrame(() => resize());
+  }
+  function sync3d(){
+    const on = S.v3d && has3d();
+    if(!V3.show(on) || !on) return;
+    const L0 = lensImage(), xa = S.inf ? -30 : S.OA, xb = M.xe != null ? M.xe : (isFinite(L0.OAp) && L0.OAp > 0 ? Math.min(L0.OAp, 70) : 20);
+    const span = clamp(xb - xa, 28, 136), cx = (xa + xb)/2;
+    V3.setCam([cx - span*.22, span*.32, span*.78], [cx, 0, 0]);
+    V3.rebuild(JSON.stringify([S, level, M.xe, state.profile]), build3d);
+  }
+  function Fshape(V, h, color, opacity, emissive){
+    const g = new THREE.Group(), t = Math.max(.18, h*.16), m = V.mat(color, opacity, {emissive: emissive || 0x000000});
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(.2, h, t), m); bar.position.set(0, h/2, 0); g.add(bar);
+    const top = new THREE.Mesh(new THREE.BoxGeometry(.2, t, h*.62), m); top.position.set(0, h - t/2, h*.31 - t/2); g.add(top);
+    const mid = new THREE.Mesh(new THREE.BoxGeometry(.2, t, h*.45), m); mid.position.set(0, h*.52, h*.225 - t/2); g.add(mid);
+    return g;
+  }
+  function build3d(V){
+    const L = lensImage(), f = L.f, R = 4, X1 = 70, XL = -66, YB = -10;
+    /* rail et supports */
+    V.add(new THREE.BoxGeometry(XL*-1 + X1 + 4, .7, 3.2), V.mat(0x343a66), [(XL + X1)/2, YB, 0]);
+    for(let x = -60; x <= 70; x += 10){ V.line([[x, YB + .36, 1.6],[x, YB + .36, 2.2]], 0xa09fbf, .6); }
+    const post = (x, top) => V.add(new THREE.CylinderGeometry(.25, .25, top - YB, 10), V.mat(0x6d7090), [x, (top + YB)/2, 0]);
+    V.line([[XL, 0, 0],[X1, 0, 0]], 0xa09fbf, .45, true);
+    /* lentille (profil de révolution) */
+    const pts = [], conv = f > 0;
+    for(let k=0;k<=20;k++){ const y = R*k/20, e = conv ? .9 - .75*(y/R)**2 : .2 + .8*(y/R)**2; pts.push(new THREE.Vector2(y, e)); }
+    for(let k=20;k>=0;k--){ const y = R*k/20, e = conv ? .9 - .75*(y/R)**2 : .2 + .8*(y/R)**2; pts.push(new THREE.Vector2(y, -e)); }
+    V.add(new THREE.LatheGeometry(pts, 48), V.mat(0x9fd0ff, .35, {shininess: 120}), [0,0,0], [0, 0, Math.PI/2]);
+    post(0, -R);
+    /* foyers */
+    [[-Math.abs(f), conv ? 'F' : 'F′'], [Math.abs(f), conv ? 'F′' : 'F']].forEach(([x, n]) => { V.add(new THREE.SphereGeometry(.35, 12, 8), new THREE.MeshBasicMaterial({color: 0xffd25a}), [x, 0, 0]); if(level >= 2) V.label(n, '#ffd25a', x, -1.6, 0, .8); });
+    if(level >= 2) V.label('O', '#8cc8ff', .9, -1.4, 0, .7);
+    /* objet : lettre F lumineuse, déplaçable */
+    const xB = S.inf ? XL : S.OA, yB = S.inf ? 0 : S.AB;
+    if(!S.inf){
+      const F = Fshape(V, S.AB, 0xffd25a, 1, 0x7a5a10); F.position.set(xB, 0, 0); V.root.add(F); post(xB, 0);
+      V.drags.push({obj: F, move: (p, ph) => { S.inf = false; S.OA = clamp(Math.round(p.x), -60, -1); if(ph === 'end') renderSteps(); dirty = vdirty = true; markModified('images'); }});
+      V.label('objet AB', '#ffd25a', xB, S.AB + 2.2, 0, .8);
+    } else V.label('objet très lointain : rayons parallèles', '#ffd25a', XL + 14, 6, 0, .8);
+    /* écran, avec l'image réellement obtenue (texture de l'encart) */
+    const xe = M.xe;
+    if(xe !== null && xe !== undefined && xe <= X1){
+      const scr = new THREE.Mesh(new THREE.PlaneGeometry(12, 7.5), new THREE.MeshBasicMaterial({map: V.canvasTex(finC), side: THREE.DoubleSide}));
+      scr.position.set(xe, 0, 0); scr.rotation.y = -Math.PI/2; V.root.add(scr);
+      V.add(new THREE.BoxGeometry(.3, 8.1, 12.6), V.mat(0x2a2e52), [xe + .25, 0, 0]);
+      post(xe, -3.75);
+      V.drags.push({obj: scr, move: (p, ph) => { S.eAuto = false; S.xe = clamp(Math.round(p.x*2)/2, 1, 70); if(ph === 'end') renderSteps(); dirty = vdirty = true; markModified('images'); }});
+      V.label('écran', '#d9d6c8', xe, 5.2, 0, .8);
+    }
+    /* image (réelle : pleine ; virtuelle : pâle) */
+    if(!S.inf && isFinite(L.OAp) && isFinite(L.gam) && L.OAp > XL && L.OAp < X1 && Math.abs(L.gam*S.AB) < 14){
+      const real = L.OAp > 0, Fi = Fshape(V, S.AB, 0x9be7b9, real ? .9 : .35);
+      Fi.position.set(L.OAp, 0, 0); Fi.scale.set(1, L.gam, L.gam); V.root.add(Fi);
+      if(level >= 2) V.label(real ? 'image réelle A′B′' : 'image virtuelle A′B′', '#9be7b9', L.OAp, (L.gam > 0 ? L.gam*S.AB : 0) + 2.2, 0, .8);
+    }
+    /* rayons : un cône de rayons partis de B, et les 3 rayons particuliers (dans le plan vertical) */
+    const xEnd = (xe !== null && xe !== undefined) ? xe : X1, real = L.OAp > 0 && isFinite(L.OAp);
+    const rayTo = (hy, hz, siy, siz, col, op) => {
+      const soy = siy - hy/f, soz = siz - hz/f;
+      V.line([[xB, S.inf ? hy + siy*xB : yB, S.inf ? hz : 0], [0, hy, hz], [xEnd, hy + soy*xEnd, hz + soz*xEnd]], col, op);
+      if(!real && isFinite(L.OAp) && L.OAp > XL) V.line([[0, hy, hz], [L.OAp, hy + soy*L.OAp, hz + soz*L.OAp]], col, op*.6, true);
+    };
+    const n = state.profile === 'leger' ? 10 : 18, s = -0.06;
+    for(let k=0;k<n;k++){ const a = 2*Math.PI*k/n, hy = 3.2*Math.cos(a), hz = 3.2*Math.sin(a);
+      if(S.inf) rayTo(hy, hz, s, 0, 0xfff0b4, .4); else rayTo(hy, hz, (hy - yB)/(-xB), hz/(-xB), 0xfff0b4, .4); }
+    if(!S.inf){
+      rayTo(yB, 0, 0, 0, 0xff6b5a, 1);
+      rayTo(0, 0, -yB/(-xB), 0, 0xffb35a, 1);
+      if(Math.abs(xB + f) > .3){ const h3 = yB*f/(f + xB); if(Math.abs(h3) < R*1.4) rayTo(h3, 0, (h3 - yB)/(-xB), 0, 0x6fd3ff, 1); }
+    }
+  }
   function setReveal(f){ S.reveal = f >= .999 ? Infinity : f*TL.max; S.playing = false; updMain(); dirty = true; }
   function tl(){ return {max:TL.max, keys:TL.keys, frac: isFinite(S.reveal) ? clamp(S.reveal/Math.max(1,TL.max),0,1) : 1}; }
   /* Glisser sur la scène : objet, écran, mise au point, oculaire */
@@ -3227,7 +3549,7 @@ const IMG = (() => {
   }
 
   /* ---------- Encart « ce que l'on voit » ---------- */
-  const scn = offscreen(480, 300), scn2 = offscreen(480, 300), tmp = offscreen(480, 300);
+  const scn = offscreen(480, 300), scn2 = offscreen(480, 300), tmp = offscreen(480, 300), finC = offscreen(480, 300);
   function drawF(q, x, y, hgt, col='#fff2b0'){ /* lettre F lumineuse (objet du banc d'optique) */
     const w = hgt*.62, t = hgt*.18;
     q.fillStyle = col; q.shadowColor = col; q.shadowBlur = hgt*.12;
@@ -3337,6 +3659,7 @@ const IMG = (() => {
     if(S.inst !== 'photo'){ if(blur > .5){ blurInto(tmp, scn, blur, blur); q.drawImage(tmp, 0, 0, w, h); } else q.drawImage(scn, 0, 0, w, h); }
     else q.drawImage(scn, 0, 0, w, h);
     if(S.inst === 'lunette' && !M.afocal){ blurInto(tmp, scn, 2.5 + Math.abs(S.dz)*8, 2.5 + Math.abs(S.dz)*8); q.drawImage(tmp, w*.5, 0, w*.5, h, w*.5, 0, w*.5, h); }
+    finC.getContext('2d').drawImage(S.inst !== 'photo' && blur > .5 ? tmp : scn, 0, 0);
     vt.textContent = title; vs.innerHTML = text;
   }
 
@@ -3408,7 +3731,7 @@ const IMG = (() => {
     }
   }
 
-  return { S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.inst]; }, dirty(){ dirty = vdirty = true; }, set(o){ Object.assign(S, o); if(o.inst === 'photo' && S.pAuto) autoFocus(); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = vdirty = true; }, canvas: cv, vcanvas: vcv };
+  return { set3d, tick3d: () => V3.tick(), S, M, renderSteps, resize, frame, main, reset, replay, drag, tl, setReveal, hint(){ return HINT[S.inst]; }, dirty(){ dirty = vdirty = true; }, set(o){ Object.assign(S, o); V3.camSet = false; if(o.inst === 'photo' && S.pAuto) autoFocus(); renderSteps(); S.reveal = Infinity; S.playing = false; updMain(); dirty = vdirty = true; }, canvas: cv, vcanvas: vcv };
 })();
 
 /* =========================================================
@@ -3498,7 +3821,7 @@ const OEIL = (() => {
       UI.toggle('Porter la correction', S.wear, v => { S.wear = v; updMain(); dirty = true; })));
     updMain(); legend(); refreshOrdo(); dirty = true;
   }
-  function upd3d(){ const b = $('#oeil-3dbtn'); if(b){ b.querySelector('.lbl').textContent = S.v3d ? 'Vue 2D' : 'Vue 3D'; b.setAttribute('aria-pressed', S.v3d ? 'true' : 'false'); } }
+  function upd3d(){ setSeg3d($('#sim-oeil'), S.v3d, true); }
   function toggle3d(v){
     S.v3d = v === undefined ? !S.v3d : v;
     if(S.v3d && !EYE3D.available()){ S.v3d = false; toast('La 3D n’est pas disponible sur cet appareil (WebGL désactivé). La vue 2D reste complète.'); }
@@ -3778,7 +4101,7 @@ const OEIL = (() => {
     if(phase === 'end') renderSteps();
     dirty = true; return true;
   }
-  return { toggle3d, drag, hint(){ return S.v3d ? 'fais tourner l’œil en 3D avec la souris ou le doigt ; bouton « Vue 2D » pour revenir au schéma' : 'fais glisser vers le haut ou le bas sur l’œil pour bomber ou relâcher le cristallin ; bouton « Vue 3D » pour voir l’œil en relief'; }, S, M, compute, prescription, renderSteps, resize, frame, main, reset, dirty(){ dirty = true; }, set(o){ Object.assign(S, {auto:true, cyl:0, axe:180, wear:true}, o); renderSteps(); dirty = true; }, get v3d(){ return S.v3d; }, canvas: cv };
+  return { toggle3d, set3d: v => toggle3d(v), drag, hint(){ return S.v3d ? 'fais tourner l’œil en 3D avec la souris ou le doigt ; sélecteur « 2D » ou touche D pour revenir au schéma' : 'fais glisser vers le haut ou le bas sur l’œil pour bomber ou relâcher le cristallin ; sélecteur « 3D » ou touche D pour voir l’œil en relief'; }, S, M, compute, prescription, renderSteps, resize, frame, main, reset, dirty(){ dirty = true; }, set(o){ Object.assign(S, {auto:true, cyl:0, axe:180, wear:true}, o); renderSteps(); dirty = true; }, get v3d(){ return S.v3d; }, canvas: cv };
 })();
 
 /* =========================================================
@@ -3973,7 +4296,7 @@ const OND = (() => {
     mode:'young', lam:633, white:false, a:0.5, D:2, oneByOne:false,
     da:100, dD:2, hair:false,
     metal:'zinc', plam:254, I:60,
-    playing:true, t:0
+    playing:true, t:0, v3d:false
   };
   const M = {};
   let W=1, H=1, g=null, dirty = true, gdirty = true;
@@ -4015,7 +4338,7 @@ const OND = (() => {
         UI.num({label:'Longueur d’onde λ', min:200, max:750, step:5, value:S.plam, show:v=>`${v} nm${v<380?' (ultraviolet)':v>750?' (infrarouge)':''}`, on:v=>{ S.plam=v; dirty = gdirty = true; }}),
         UI.num({label:'Intensité de la lampe', min:0, max:100, step:5, value:S.I, show:v=>`${v} %`, on:v=>{ S.I=v; dirty = true; }})));
     }
-    updMain(); legend(); dirty = gdirty = true;
+    updMain(); legend(); upd3d(); dirty = gdirty = true;
   }
   function updMain(){ const b = $('#ond-main'); b.innerHTML = (S.playing ? ICON.pause : ICON.play) + `<span class="lbl">${S.playing ? 'Pause' : (S.mode === 'photo' ? 'Allumer la lampe' : 'Lecture')}</span>`; b.classList.toggle('on', S.playing); }
   function main(){ S.playing = !S.playing; updMain(); }
@@ -4038,7 +4361,67 @@ const OND = (() => {
   function screenRange(){ return S.mode === 'young' ? 16 : 40; } /* demi-hauteur visible (mm) */
 
   /* ---------- Dessin ---------- */
-  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = gdirty = true; const q = hiDPI(gcv); gdirty = true; }
+  function resize(){ const r = hiDPI(cv); W=r.W; H=r.H; g=r.ctx; dirty = gdirty = true; const q = hiDPI(gcv); gdirty = true; V3.size(); }
+  /* ---------- Vue 3D : fentes de Young et diffraction ---------- */
+  const V3 = make3D($('#ond-stage .view'), {labelScale:1, fov:40});
+  const has3d = () => S.mode === 'young' || S.mode === 'diff';
+  function upd3d(){ setSeg3d($('#sim-ondes'), S.v3d && has3d(), has3d(), 'La 3D existe pour les fentes de Young et la diffraction'); }
+  function set3d(v){
+    S.v3d = v;
+    if(v && !has3d()) toast('La vue 3D existe pour les fentes de Young et la diffraction.');
+    else if(v && !V3.available()){ S.v3d = false; toast('La 3D n’est pas disponible sur cet appareil (WebGL désactivé).'); }
+    else if(v) toast('Vue 3D : glisse pour tourner autour du montage, molette pour zoomer, double-clic pour revenir.', 5000);
+    upd3d(); dirty = gdirty = true;
+  }
+  function sync3d(){
+    const on = S.v3d && has3d();
+    if(!V3.show(on) || !on) return;
+    V3.setCam([-30, 15, 36], [2, 0, 0]);
+    V3.rebuild(JSON.stringify([S.mode, S.lam, S.white, S.a, S.D, S.da, S.dD, S.hair, level, state.profile]), build3d);
+  }
+  function build3d(V){
+    const young = S.mode === 'young', XL = -34, XP = -18, XS = 24, HS = 9, ZW = 7, ym = screenRange();
+    const lc = young && S.white ? 560 : S.lam, rgb = young && S.white ? [255,255,255] : waveRGB(lc), colHex = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+    /* écran : les vraies franges calculées */
+    const tc = document.createElement('canvas'); tc.width = 8; tc.height = 512; const q = tc.getContext('2d');
+    for(let py = 0; py < 512; py++){
+      const y = (1 - py/511*2)*ym;
+      if(young && S.white){ let r=0,gg=0,b=0; WLs.forEach(l => { const I = youngI(y,l), c = waveRGB(l); r += c[0]*I; gg += c[1]*I; b += c[2]*I; }); const n = WLs.length*.42; q.fillStyle = `rgb(${Math.min(255,r/n)|0},${Math.min(255,gg/n)|0},${Math.min(255,b/n)|0})`; }
+      else { const I = young ? youngI(y, lc) : diffI(y, lc); q.fillStyle = waveCSS(lc, Math.pow(I, .7)); }
+      q.fillRect(0, py, 8, 1);
+    }
+    V.add(new THREE.PlaneGeometry(2*ZW, 2*HS), new THREE.MeshBasicMaterial({map: V.canvasTex(tc), side: THREE.DoubleSide}), [XS, 0, 0], [0, -Math.PI/2, 0]);
+    V.add(new THREE.BoxGeometry(.4, 2*HS + .6, 2*ZW + .6), V.mat(0xd9d6c8), [XS + .35, 0, 0]);
+    /* plaque percée */
+    const pm = V.mat(0x8a8fb8), box = (y0, y1) => { if(y1 - y0 > .01) V.add(new THREE.BoxGeometry(.4, y1 - y0, 2*ZW), pm, [XP, (y0 + y1)/2, 0]); };
+    let slits;
+    if(young){ const sep = clamp(S.a*6, 1.2, 5), o = .14; box(-HS, -sep/2 - o); box(-sep/2 + o, sep/2 - o); box(sep/2 + o, HS); slits = [sep/2, -sep/2]; }
+    else if(!S.hair){ const w = clamp(S.da/200*2.4, .25, 2.4); box(-HS, -w/2); box(w/2, HS); slits = [0]; }
+    else { const w = clamp(S.da/200*2.4, .25, 2.4); V.add(new THREE.CylinderGeometry(w/2, w/2, 2*ZW, 16), pm, [XP, 0, 0], [Math.PI/2, 0, 0]); slits = [w, -w]; }
+    /* laser et faisceau */
+    V.add(new THREE.BoxGeometry(4, 1.6, 1.6), V.mat(0x2b2f55), [XL - 2, 0, 0]);
+    const beam = V.add(new THREE.CylinderGeometry(young ? Math.max(1.2, slits[0]*1.3) : 1.2, young ? Math.max(1.2, slits[0]*1.3) : 1.2, XP - XL, 20, 1, true), new THREE.MeshBasicMaterial({color: colHex, transparent: true, opacity: .18, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending}), [(XL + XP)/2, 0, 0], [0, 0, Math.PI/2]);
+    /* éventails de lumière : chaque ouverture éclaire tout l'écran */
+    const fanMat = new THREE.MeshBasicMaterial({color: colHex, transparent: true, opacity: young ? .07 : .1, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending});
+    slits.forEach(ys => [HS, -HS].forEach(ye => {
+      const g = new THREE.BufferGeometry(), v = new Float32Array([XP, ys, -ZW, XP, ys, ZW, XS, ye, ZW, XP, ys, -ZW, XS, ye, ZW, XS, ye, -ZW]);
+      g.setAttribute('position', new THREE.BufferAttribute(v, 3)); V.root.add(new THREE.Mesh(g, fanMat));
+    }));
+    if(young){
+      /* les deux rayons du cours, de S₁ et S₂ vers un point M d'une frange brillante */
+      const i = lc*S.D/(S.a*1000), k = 2*i <= ym*.9 ? 2 : 1, yM = k*i/ym*HS;
+      V.line([[XP, slits[0], 0], [XS - .05, yM, 0]], 0x6fd3ff, 1);
+      V.line([[XP, slits[1], 0], [XS - .05, yM, 0]], 0xff9a6b, 1);
+      V.add(new THREE.SphereGeometry(.3, 12, 8), new THREE.MeshBasicMaterial({color: 0xffffff}), [XS - .1, yM, 0]);
+      V.label('S₁', '#6fd3ff', XP - 1.2, slits[0] + .9, 0, .8); V.label('S₂', '#ff9a6b', XP - 1.2, slits[1] - .9, 0, .8);
+      V.label('M', '#ffffff', XS - 1.2, yM + .9, 0, .8);
+      if(level >= 2) V.label(`frange brillante : δ = ${k}λ · i = ${fmtF(i,2)} mm`, '#ffd25a', XS, HS + 2, 0, .75);
+    } else if(level >= 2) V.label(`tache centrale : L = ${fmtF(2*S.lam*S.dD/S.da,1)} mm`, '#ffd25a', XS, HS + 2, 0, .75);
+    V.label('laser', '#cfd0e6', XL - 2, 2, 0, .75);
+    V.label(young ? 'deux fentes' : S.hair ? 'un cheveu' : 'une fente', '#cfd0e6', XP, HS + 1.6, 0, .75);
+    V.label('écran', '#d9d6c8', XS, -HS - 1.6, 0, .75);
+    if(level >= 2) V.label('D (raccourci)', '#a09fbf', (XP + XS)/2, -HS - 1.2, ZW, .7);
+  }
   let field = null, fieldW = 0, fieldH = 0, fieldImg = null;
   function frame(dt){
     if(S.playing) S.t += dt;
@@ -4050,6 +4433,7 @@ const OND = (() => {
     if(S.mode === 'photo') drawPhoto(dt); else drawWaves(dt);
     if(gdirty){ graph(); drawSchema(); }
     texts();
+    sync3d();
   }
   function drawWaves(dt){
     const young = S.mode === 'young';
@@ -4353,7 +4737,7 @@ const OND = (() => {
     if(phase === 'end') renderSteps();
     dirty = gdirty = true; return true;
   }
-  return { drag, hint(){ return S.mode === 'photo' ? 'fais glisser de gauche à droite pour changer la couleur de la lampe, des UV au rouge' : 'fais glisser de gauche à droite pour changer la couleur du laser'; }, S, M, METALS, renderSteps, renderFrise, resize, frame, main, reset, dirty(){ dirty = gdirty = true; }, set(o){ Object.assign(S, o); hits = []; photons = []; electrons = []; emitted = 0; renderSteps(); dirty = gdirty = true; }, canvas: cv, gcanvas: gcv };
+  return { set3d, tick3d: () => V3.tick(), drag, hint(){ return S.mode === 'photo' ? 'fais glisser de gauche à droite pour changer la couleur de la lampe, des UV au rouge' : 'fais glisser de gauche à droite pour changer la couleur du laser'; }, S, M, METALS, renderSteps, renderFrise, resize, frame, main, reset, dirty(){ dirty = gdirty = true; }, set(o){ Object.assign(S, o); hits = []; photons = []; electrons = []; emitted = 0; renderSteps(); dirty = gdirty = true; }, canvas: cv, gcanvas: gcv };
 })();
 
 /* =========================================================
@@ -4382,9 +4766,14 @@ function setLevel(n){
 }
 $$('#lvlSeg button').forEach(b => b.addEventListener('click', () => setLevel(+b.dataset.level)));
 
-/* ---------- Mode léger ---------- */
-function setLight(v){ state.light = v; store.set('ao-light', v); $('#btnLight').setAttribute('aria-pressed', v ? 'true' : 'false'); resizeAll(); }
-$('#btnLight').addEventListener('click', () => { setLight(!state.light); toast(state.light ? 'Mode léger : moins de rayons, flou simplifié, animations allégées.' : 'Mode complet.'); });
+/* ---------- Profil d'affichage (comme l'Atelier Cosmique) ---------- */
+const PROF = {complet:['Complet','tous les rayons, 3D fine (ordinateur récent)'], equilibre:['Équilibré','bon compromis (ordinateur ancien, tablette)'], leger:['Léger','moins de rayons, flou simplifié, 3D allégée (téléphone modeste)']};
+function setProfile(p, silent){
+  state.profile = p; state.light = p === 'leger'; store.set('ao-profile', p); $('#profLbl').textContent = PROF[p][0];
+  SIMS.forEach(t => { MOD[t]._sized = false; MOD[t].dirty(); }); resizeAll();
+  if(!silent) toast(`Profil ${PROF[p][0]} : ${PROF[p][1]}.`);
+}
+$('#btnLight').addEventListener('click', () => { const L = ['complet','equilibre','leger']; setProfile(L[(L.indexOf(state.profile) + 1) % 3]); });
 
 /* ---------- Taille des textes ---------- */
 let zoomV = +store.get('ao-zoom', 1) || 1;
@@ -4407,6 +4796,14 @@ $$('.dlg').forEach(d => d.addEventListener('click', e => { if(e.target === d || 
 $('#btnKeys').addEventListener('click', () => openDlg('keys'));
 $('#aboutBody').innerHTML = $('#foot').innerHTML.replace('<span class="label">Sources et simplifications</span>', '');
 $('#btnAbout').addEventListener('click', () => openDlg('about'));
+/* ---------- Les ateliers de la collection ---------- */
+const ATELIERS = [
+  ['Forces','L’Atelier des Forces','Plan incliné, ressort, projectiles : les forces de contact et à distance, en 3D.','https://oumarmaiil-oss.github.io/atelierforces/'],
+  ['Cosmique','L’Atelier Cosmique','Du Big Bang au système solaire : atomes, étoiles, lumière, galaxies, télescopes.','https://oumarmaiil-oss.github.io/ateliercosmique/'],
+  ['Optique','L’Atelier Optique','Lumière, lentilles et miroirs, l’œil et sa correction, ondes et photons.','https://oumarmaiil-oss.github.io/atelieroptique/']
+];
+$$('[data-atl]').forEach(box => { box.innerHTML = ATELIERS.map(([k, n, d, u]) => k === 'Optique' ? `<div class="atc here"><b>${n}</b><span>${d}</span><em>Tu es ici</em></div>` : `<a class="atc" href="${u}" target="_blank" rel="noopener"><b>${n}</b><span>${d}</span><em>Ouvrir ↗</em></a>`).join(''); });
+$('#btnAteliers').addEventListener('click', () => openDlg('ateliers'));
 
 /* petit écran : légendes réduites ; téléphone en paysage : encarts réduits */
 if(matchMedia('(orientation:portrait) and (max-width:1000px), (max-height:560px)').matches){ $$('.ovleg').forEach(o => o.classList.add('mini')); $$('.vbox').forEach(o => o.classList.add('mini')); }
@@ -4574,9 +4971,12 @@ function fullscreen(on){
 SIMS.forEach(t => {
   simEl(t).querySelectorAll('.transport [data-do]').forEach(b => b.addEventListener('click', () => {
     const d = b.dataset.do;
-    if(d === 'fs') fullscreen(); else if(d === 'v3d') MOD[t].toggle3d(); else if(d === 'main') MOD[t].main(); else if(d === 'reset'){ MOD[t].reset(); curEx[t] = null; state.exOn[t] = false; renderExtag(t); }
+    if(d === 'fs') fullscreen(); else if(d === 'main') MOD[t].main(); else if(d === 'reset'){ MOD[t].reset(); curEx[t] = null; state.exOn[t] = false; renderExtag(t); }
   }));
 });
+
+/* ---------- Sélecteur 2D | 3D (même place et même touche dans tous les ateliers) ---------- */
+SIMS.forEach(t => simEl(t).querySelectorAll('.v3seg button').forEach(b => b.addEventListener('click', () => { if(!b.disabled) MOD[t].set3d(b.dataset.v === '3'); })));
 
 /* ---------- Image de la scène ---------- */
 function capture(){
@@ -4587,6 +4987,7 @@ function capture(){
   const q = c.getContext('2d');
   q.fillStyle = '#0a0b14'; q.fillRect(0, 0, W, band);
   try{ q.drawImage(src, 0, band); } catch(e){ toast('Image impossible sur cet appareil.'); return; }
+  const c3g = s.querySelector('.cv3d'); if(c3g && c3g.style.display !== 'none'){ try{ q.drawImage(c3g, 0, band, W, H); } catch(e){} }
   if(t === 'oeil' && OEIL.v3d){ const c3 = EYE3D.canvas(); if(c3 && c3.style.display !== 'none'){ q.drawImage(c3, parseFloat(c3.style.left)*k, band + parseFloat(c3.style.top)*k, parseFloat(c3.style.width)*k, parseFloat(c3.style.height)*k); } }
   const vb = s.querySelector('.vbox:not([hidden]):not(.mini) canvas');
   if(vb){ const vw = vb.width, vh = vb.height, sc = Math.min(W*.3/vw, 1.5); q.fillStyle = '#0a0b18'; q.fillRect(W - vw*sc - 14*k, band + H - vh*sc - 14*k, vw*sc + 8*k, vh*sc + 8*k); q.drawImage(vb, W - vw*sc - 10*k, band + H - vh*sc - 10*k, vw*sc, vh*sc); }
@@ -4727,7 +5128,7 @@ function loop(now){
   const dt = Math.min(.05, (now - last)/1000); last = now;
   const m = MOD[state.tab];
   if(m && !m._sized){ m.resize(); m._sized = true; }
-  if(m && !document.hidden){ try{ m.frame(state.tab === 'oeil' ? dt : dt*state.speed); } catch(e){ console.error(e); } syncTL(); if(state.tab === 'oeil') EYE3D.tick(); }
+  if(m && !document.hidden){ try{ m.frame(state.tab === 'oeil' ? dt : dt*state.speed); } catch(e){ console.error(e); } syncTL(); if(state.tab === 'oeil') EYE3D.tick(); else if(m.tick3d) m.tick3d(); }
   defT += dt; if(defT > .35){ defT = 0; checkDefis(); }
   requestAnimationFrame(loop);
 }
@@ -4796,14 +5197,14 @@ document.addEventListener('keydown', e => {
   if(k === ' '){ if(e.target.closest && e.target.closest('button')) return; MOD[t].main(); e.preventDefault(); }
   else if(k === 'r' || k === 'R'){ MOD[t].reset(); curEx[t] = null; state.exOn[t] = false; renderExtag(t); }
   else if(k === 'e' || k === 'E'){ const s = simEl(t), cur = s.querySelector('.exseg .on'); setPane(s, cur && cur.dataset.pane === 'exemples' ? 'reglages' : 'exemples'); }
-  else if((k === 'v' || k === 'V') && t === 'oeil') OEIL.toggle3d();
+  else if((k === 'd' || k === 'D') && MOD[t].set3d) MOD[t].set3d(!MOD[t].S.v3d);
   else if(k === 'l' || k === 'L') toggleOverlays();
   else if(k === 'f' || k === 'F') fullscreen();
   else if(k === 'c' || k === 'C') capture();
 });
 
 /* ---------- Démarrage ---------- */
-setLevel(level); setZoom(zoomV); setLight(state.light); setLoop(state.loop);
+setLevel(level); setZoom(zoomV); setProfile(state.profile, true); setLoop(state.loop);
 MIL.renderSteps(); IMG.renderSteps(); OEIL.renderSteps(); OND.renderSteps(); OND.renderFrise();
 renderDefis(); renderQuiz();
 { const h = parseHash(); if(h.n) setLevel(+h.n); showTab(h.tab || 'milieux'); if(h.ex) runExample(state.tab, h.ex); else if(!location.hash) runExample('milieux', 'air-eau'); }
